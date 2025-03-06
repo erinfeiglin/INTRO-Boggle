@@ -1,0 +1,104 @@
+<html>
+<head>
+<title>upperframe.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #5f826b; font-style: italic;}
+.s4 { color: #6aab73;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+upperframe.py</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">tkinter </span><span class="s0">as </span><span class="s1">tk</span>
+
+
+<span class="s0">class </span><span class="s1">UpperFrame</span><span class="s2">:</span>
+    <span class="s3">&quot;&quot;&quot;this class is responsible for the upper frame of the game, 
+    where the current time and score are stored&quot;&quot;&quot;</span>
+
+    <span class="s1">TIME_OUT </span><span class="s2">= </span><span class="s4">&quot;02:40&quot;</span>
+    <span class="s1">INITIAL_TIME </span><span class="s2">= </span><span class="s4">&quot;03:00&quot;</span>
+    <span class="s1">DEFAULT_TEXT </span><span class="s2">= (</span><span class="s4">&quot;Courier&quot;</span><span class="s2">, </span><span class="s5">20</span><span class="s2">)</span>
+    <span class="s1">EMPTY_SCORE </span><span class="s2">= </span><span class="s4">&quot;0&quot;</span>
+
+    <span class="s0">def </span><span class="s1">__init__</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">root</span><span class="s2">):</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_main_window </span><span class="s2">= </span><span class="s1">root</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_upper_frame </span><span class="s2">= </span><span class="s0">None</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_timer </span><span class="s2">= </span><span class="s0">None</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_scoreboard </span><span class="s2">= </span><span class="s0">None</span>
+
+    <span class="s0">def </span><span class="s1">start_frame</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method creates the necessary frame and widgets 
+        it also activates the timer&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_create_frame</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_create_widgets</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_main_window</span><span class="s2">.</span><span class="s1">after</span><span class="s2">(</span><span class="s5">1000</span><span class="s2">, </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_activate_timer</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">_create_frame</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method creates the frame that will contain the widgets&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_upper_frame </span><span class="s2">= </span><span class="s1">tk</span><span class="s2">.</span><span class="s1">Frame</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_main_window</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_upper_frame</span><span class="s2">.</span><span class="s1">pack</span><span class="s2">(</span><span class="s1">fill</span><span class="s2">=</span><span class="s1">tk</span><span class="s2">.</span><span class="s1">BOTH</span><span class="s2">, </span><span class="s1">expand</span><span class="s2">=</span><span class="s0">True</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">_create_widgets</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method creates all the frame's widgets and packs them accordingly 
+        Specifically, the timer and the scoreboard widgets&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_timer </span><span class="s2">= </span><span class="s1">tk</span><span class="s2">.</span><span class="s1">Label</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_upper_frame</span><span class="s2">, </span><span class="s1">text</span><span class="s2">=</span><span class="s1">self</span><span class="s2">.</span><span class="s1">INITIAL_TIME</span><span class="s2">, </span><span class="s1">font</span><span class="s2">=</span><span class="s1">self</span><span class="s2">.</span><span class="s1">DEFAULT_TEXT</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_timer</span><span class="s2">.</span><span class="s1">pack</span><span class="s2">(</span><span class="s1">side</span><span class="s2">=</span><span class="s4">&quot;left&quot;</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_scoreboard </span><span class="s2">= </span><span class="s1">tk</span><span class="s2">.</span><span class="s1">Label</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_upper_frame</span><span class="s2">, </span><span class="s1">text</span><span class="s2">=</span><span class="s1">self</span><span class="s2">.</span><span class="s1">EMPTY_SCORE</span><span class="s2">, </span><span class="s1">font</span><span class="s2">=</span><span class="s1">self</span><span class="s2">.</span><span class="s1">DEFAULT_TEXT</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_scoreboard</span><span class="s2">.</span><span class="s1">pack</span><span class="s2">(</span><span class="s1">side</span><span class="s2">=</span><span class="s4">&quot;right&quot;</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">get_score</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;returns the current score&quot;&quot;&quot;</span>
+        <span class="s0">return </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_scoreboard</span><span class="s2">[</span><span class="s4">&quot;text&quot;</span><span class="s2">]</span>
+
+    <span class="s0">def </span><span class="s1">add_to_score</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">score</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method takes an integer, score, as input, and adds it to 
+        the current score, and updates the scoreboard on the screen&quot;&quot;&quot;</span>
+        <span class="s1">curr_score </span><span class="s2">= </span><span class="s1">int</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_scoreboard</span><span class="s2">[</span><span class="s4">&quot;text&quot;</span><span class="s2">])</span>
+        <span class="s1">curr_score </span><span class="s2">+= </span><span class="s1">score</span>
+        <span class="s1">curr_score </span><span class="s2">= </span><span class="s1">str</span><span class="s2">(</span><span class="s1">curr_score</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_scoreboard</span><span class="s2">[</span><span class="s4">&quot;text&quot;</span><span class="s2">] = </span><span class="s1">curr_score</span>
+
+    <span class="s0">def </span><span class="s1">_activate_timer</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method is responsible for the timer. it makes it start counting down 
+        from three minutes&quot;&quot;&quot;</span>
+        <span class="s0">if </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_timer</span><span class="s2">[</span><span class="s4">&quot;text&quot;</span><span class="s2">] != </span><span class="s1">self</span><span class="s2">.</span><span class="s1">TIME_OUT</span><span class="s2">:</span>
+            <span class="s1">minutes </span><span class="s2">= </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_timer</span><span class="s2">[</span><span class="s4">&quot;text&quot;</span><span class="s2">][:</span><span class="s5">2</span><span class="s2">]</span>
+            <span class="s1">seconds </span><span class="s2">= </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_timer</span><span class="s2">[</span><span class="s4">&quot;text&quot;</span><span class="s2">][</span><span class="s5">3</span><span class="s2">:]</span>
+            <span class="s0">if </span><span class="s1">int</span><span class="s2">(</span><span class="s1">seconds</span><span class="s2">) != </span><span class="s5">0</span><span class="s2">:</span>
+                <span class="s1">seconds </span><span class="s2">= </span><span class="s1">int</span><span class="s2">(</span><span class="s1">seconds</span><span class="s2">) - </span><span class="s5">1</span>
+                <span class="s0">if </span><span class="s1">seconds </span><span class="s2">&gt;= </span><span class="s5">10</span><span class="s2">:</span>
+                    <span class="s1">curr_time </span><span class="s2">= </span><span class="s1">minutes </span><span class="s2">+ </span><span class="s4">&quot;:&quot; </span><span class="s2">+ </span><span class="s1">str</span><span class="s2">(</span><span class="s1">seconds</span><span class="s2">)</span>
+                <span class="s0">else</span><span class="s2">:</span>
+                    <span class="s1">curr_time </span><span class="s2">= </span><span class="s1">minutes </span><span class="s2">+ </span><span class="s4">&quot;:&quot; </span><span class="s2">+ </span><span class="s4">&quot;0&quot; </span><span class="s2">+ </span><span class="s1">str</span><span class="s2">(</span><span class="s1">seconds</span><span class="s2">)</span>
+            <span class="s0">else</span><span class="s2">:</span>
+                <span class="s1">minutes </span><span class="s2">= </span><span class="s1">int</span><span class="s2">(</span><span class="s1">minutes</span><span class="s2">) - </span><span class="s5">1</span>
+                <span class="s1">curr_time </span><span class="s2">= </span><span class="s4">&quot;0&quot; </span><span class="s2">+ </span><span class="s1">str</span><span class="s2">(</span><span class="s1">minutes</span><span class="s2">) + </span><span class="s4">&quot;:59&quot;</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">_timer</span><span class="s2">[</span><span class="s4">&quot;text&quot;</span><span class="s2">] = </span><span class="s1">curr_time</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">_main_window</span><span class="s2">.</span><span class="s1">after</span><span class="s2">(</span><span class="s5">1000</span><span class="s2">, </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_activate_timer</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">get_time</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;returns the current time of the timer&quot;&quot;&quot;</span>
+        <span class="s0">return </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_timer</span><span class="s2">[</span><span class="s4">&quot;text&quot;</span><span class="s2">]</span>
+
+    <span class="s0">def </span><span class="s1">reset_time</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;resets the timer to three minutes&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_timer</span><span class="s2">[</span><span class="s4">&quot;text&quot;</span><span class="s2">] = </span><span class="s1">self</span><span class="s2">.</span><span class="s1">INITIAL_TIME</span>
+
+    <span class="s0">def </span><span class="s1">forget_widgets</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method makes all the widgets and frame be forgotten. it is used when 
+        the current game is over, as a means to reset the game&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_scoreboard</span><span class="s2">.</span><span class="s1">forget</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_upper_frame</span><span class="s2">.</span><span class="s1">forget</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_timer</span><span class="s2">.</span><span class="s1">forget</span><span class="s2">()</span>
+</pre>
+</body>
+</html>

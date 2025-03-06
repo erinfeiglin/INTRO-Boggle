@@ -1,0 +1,127 @@
+<html>
+<head>
+<title>lettersframe.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #5f826b; font-style: italic;}
+.s4 { color: #6aab73;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+lettersframe.py</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">tkinter </span><span class="s0">as </span><span class="s1">tk</span>
+<span class="s0">from </span><span class="s1">boggle_board_randomizer </span><span class="s0">import </span><span class="s2">*</span>
+<span class="s0">from </span><span class="s1">board2 </span><span class="s0">import </span><span class="s2">*</span>
+
+
+<span class="s0">class </span><span class="s1">LettersFrame</span><span class="s2">:</span>
+    <span class="s3">&quot;&quot;&quot;this class is responsible for creating the visual of the actual board. it 
+    creates and stores the buttons with the specific letters, as gotten from the 
+    randomized board&quot;&quot;&quot;</span>
+
+    <span class="s1">DEFAULT_TEXT </span><span class="s2">= (</span><span class="s4">&quot;Courier&quot;</span><span class="s2">, </span><span class="s5">14</span><span class="s2">)</span>
+    <span class="s1">DISABLED_BUTTON_COLOR </span><span class="s2">= </span><span class="s4">&quot;red&quot;</span>
+    <span class="s1">DEFAULT_BUTTON_COLOR </span><span class="s2">= </span><span class="s4">&quot;dark green&quot;</span>
+    <span class="s1">HEIGHT </span><span class="s2">= </span><span class="s5">3</span>
+    <span class="s1">WIDTH </span><span class="s2">= </span><span class="s5">3</span>
+
+    <span class="s0">def </span><span class="s1">__init__</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">root</span><span class="s2">):</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_board </span><span class="s2">= </span><span class="s1">Board</span><span class="s2">(</span><span class="s1">randomize_board</span><span class="s2">())</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_buttons </span><span class="s2">= </span><span class="s1">list</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_main_window </span><span class="s2">= </span><span class="s1">root</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame </span><span class="s2">= </span><span class="s0">None</span>
+
+    <span class="s0">def </span><span class="s1">start_frame</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method creates the necessary frame and widgets&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_create_frame</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_create_buttons</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_board</span><span class="s2">.</span><span class="s1">get_board</span><span class="s2">())</span>
+
+    <span class="s0">def </span><span class="s1">_create_frame</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method creates the frame that will contain the widgets&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame </span><span class="s2">= </span><span class="s1">tk</span><span class="s2">.</span><span class="s1">Frame</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_main_window</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame</span><span class="s2">.</span><span class="s1">pack</span><span class="s2">(</span><span class="s1">fill</span><span class="s2">=</span><span class="s1">tk</span><span class="s2">.</span><span class="s1">BOTH</span><span class="s2">, </span><span class="s1">expand</span><span class="s2">=</span><span class="s0">True</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">_create_buttons</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">board</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method is used to create all the board's letters, 
+         and will allow for the user to click on them&quot;&quot;&quot;</span>
+        <span class="s0">for </span><span class="s1">column </span><span class="s0">in </span><span class="s1">range</span><span class="s2">(</span><span class="s1">len</span><span class="s2">(</span><span class="s1">board</span><span class="s2">[</span><span class="s5">0</span><span class="s2">])):</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame</span><span class="s2">.</span><span class="s1">columnconfigure</span><span class="s2">(</span><span class="s1">column</span><span class="s2">, </span><span class="s1">weight</span><span class="s2">=</span><span class="s5">1</span><span class="s2">)</span>
+        <span class="s0">for </span><span class="s1">row </span><span class="s0">in </span><span class="s1">range</span><span class="s2">(</span><span class="s1">len</span><span class="s2">(</span><span class="s1">board</span><span class="s2">)):</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame</span><span class="s2">.</span><span class="s1">rowconfigure</span><span class="s2">(</span><span class="s1">row</span><span class="s2">, </span><span class="s1">weight</span><span class="s2">=</span><span class="s5">1</span><span class="s2">)</span>
+        <span class="s0">for </span><span class="s1">row</span><span class="s2">, </span><span class="s1">col </span><span class="s0">in </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_board</span><span class="s2">.</span><span class="s1">cell_list_empty</span><span class="s2">():</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">_make_button</span><span class="s2">(</span><span class="s1">board</span><span class="s2">[</span><span class="s1">row</span><span class="s2">][</span><span class="s1">col</span><span class="s2">], </span><span class="s1">row</span><span class="s2">, </span><span class="s1">col</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">_make_button</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">seq_letters</span><span class="s2">, </span><span class="s1">row</span><span class="s2">, </span><span class="s1">col</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method creates an individual button at a specific coordinate 
+        used is the create_buttons method&quot;&quot;&quot;</span>
+        <span class="s1">button </span><span class="s2">= </span><span class="s1">tk</span><span class="s2">.</span><span class="s1">Button</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame</span><span class="s2">, </span><span class="s1">text</span><span class="s2">=</span><span class="s1">seq_letters</span><span class="s2">, </span><span class="s1">height</span><span class="s2">=</span><span class="s1">self</span><span class="s2">.</span><span class="s1">HEIGHT</span><span class="s2">, </span><span class="s1">width</span><span class="s2">=</span><span class="s1">self</span><span class="s2">.</span><span class="s1">WIDTH</span><span class="s2">,</span>
+                           <span class="s1">font</span><span class="s2">=</span><span class="s1">self</span><span class="s2">.</span><span class="s1">DEFAULT_TEXT</span><span class="s2">, </span><span class="s1">bg</span><span class="s2">=</span><span class="s1">self</span><span class="s2">.</span><span class="s1">DEFAULT_BUTTON_COLOR</span><span class="s2">)</span>
+        <span class="s1">button</span><span class="s2">.</span><span class="s1">grid_configure</span><span class="s2">(</span><span class="s1">row</span><span class="s2">=</span><span class="s1">row</span><span class="s2">, </span><span class="s1">column</span><span class="s2">=</span><span class="s1">col</span><span class="s2">, </span><span class="s1">sticky</span><span class="s2">=</span><span class="s4">&quot;swne&quot;</span><span class="s2">)</span>
+        <span class="s0">if </span><span class="s1">len</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_buttons</span><span class="s2">) - </span><span class="s5">1 </span><span class="s2">== </span><span class="s1">row</span><span class="s2">:</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">_buttons</span><span class="s2">[-</span><span class="s5">1</span><span class="s2">].</span><span class="s1">append</span><span class="s2">(</span><span class="s1">button</span><span class="s2">)</span>
+        <span class="s0">else</span><span class="s2">:</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">_buttons</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span><span class="s1">list</span><span class="s2">())</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">_buttons</span><span class="s2">[-</span><span class="s5">1</span><span class="s2">].</span><span class="s1">append</span><span class="s2">(</span><span class="s1">button</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">set_buttons_cmd</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">cmd</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method takes a cmd as input, and uses the 
+        method _set_button_cmd to give every button the board the desired command&quot;&quot;&quot;</span>
+        <span class="s0">for </span><span class="s1">index_row</span><span class="s2">, </span><span class="s1">button_row </span><span class="s0">in </span><span class="s1">enumerate</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_buttons</span><span class="s2">):</span>
+            <span class="s0">for </span><span class="s1">index_col</span><span class="s2">, </span><span class="s1">button </span><span class="s0">in </span><span class="s1">enumerate</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_buttons</span><span class="s2">[</span><span class="s1">index_row</span><span class="s2">]):</span>
+                <span class="s1">self</span><span class="s2">.</span><span class="s1">_set_button_cmd</span><span class="s2">(</span><span class="s1">index_row</span><span class="s2">, </span><span class="s1">index_col</span><span class="s2">, </span><span class="s1">cmd</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">_set_button_cmd</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">row</span><span class="s2">, </span><span class="s1">col</span><span class="s2">, </span><span class="s1">cmd</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method takes a coordinate and a cmd as input 
+        it sets the button at the given coordinate to have the input command&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_buttons</span><span class="s2">[</span><span class="s1">row</span><span class="s2">][</span><span class="s1">col</span><span class="s2">].</span><span class="s1">configure</span><span class="s2">(</span><span class="s1">command</span><span class="s2">=</span><span class="s0">lambda</span><span class="s2">: </span><span class="s1">cmd</span><span class="s2">(</span><span class="s1">row</span><span class="s2">, </span><span class="s1">col</span><span class="s2">))</span>
+
+    <span class="s0">def </span><span class="s1">get_board</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;returns the game's board&quot;&quot;&quot;</span>
+        <span class="s0">return </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_board</span>
+
+    <span class="s0">def </span><span class="s1">get_buttons</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;returns the game's buttons&quot;&quot;&quot;</span>
+        <span class="s0">return </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_buttons</span>
+
+    <span class="s0">def </span><span class="s1">enable_all</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method switches all the letter buttons to be in an active state&quot;&quot;&quot;</span>
+        <span class="s1">all_button_row </span><span class="s2">= </span><span class="s1">len</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_buttons</span><span class="s2">)</span>
+        <span class="s1">all_button_col </span><span class="s2">= </span><span class="s1">len</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_buttons</span><span class="s2">[</span><span class="s5">0</span><span class="s2">])</span>
+        <span class="s0">for </span><span class="s1">row </span><span class="s0">in </span><span class="s1">range</span><span class="s2">(</span><span class="s1">all_button_row</span><span class="s2">):</span>
+            <span class="s0">for </span><span class="s1">col </span><span class="s0">in </span><span class="s1">range</span><span class="s2">(</span><span class="s1">all_button_col</span><span class="s2">):</span>
+                <span class="s1">self</span><span class="s2">.</span><span class="s1">_buttons</span><span class="s2">[</span><span class="s1">row</span><span class="s2">][</span><span class="s1">col</span><span class="s2">].</span><span class="s1">configure</span><span class="s2">(</span><span class="s1">state</span><span class="s2">=</span><span class="s4">&quot;normal&quot;</span><span class="s2">)</span>
+                <span class="s1">self</span><span class="s2">.</span><span class="s1">_buttons</span><span class="s2">[</span><span class="s1">row</span><span class="s2">][</span><span class="s1">col</span><span class="s2">][</span><span class="s4">&quot;bg&quot;</span><span class="s2">] = </span><span class="s1">self</span><span class="s2">.</span><span class="s1">DEFAULT_BUTTON_COLOR</span>
+
+    <span class="s0">def </span><span class="s1">disable_surrounding</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method is responsible for making the invalid buttons not active, 
+        making it so the user is not able to press them (the buttons not directly 
+        surrounding the chosen one, and any button already chosen within this turn)&quot;&quot;&quot;</span>
+        <span class="s0">for </span><span class="s1">index_row</span><span class="s2">, </span><span class="s1">row </span><span class="s0">in </span><span class="s1">enumerate</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_buttons</span><span class="s2">):</span>
+            <span class="s0">for </span><span class="s1">index_col</span><span class="s2">, </span><span class="s1">button </span><span class="s0">in </span><span class="s1">enumerate</span><span class="s2">(</span><span class="s1">row</span><span class="s2">):</span>
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">index_row</span><span class="s2">, </span><span class="s1">index_col</span><span class="s2">) </span><span class="s0">not in </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_board</span><span class="s2">.</span><span class="s1">get_path</span><span class="s2">().</span><span class="s1">get_cords</span><span class="s2">():</span>
+                    <span class="s1">button</span><span class="s2">.</span><span class="s1">configure</span><span class="s2">(</span><span class="s1">state</span><span class="s2">=</span><span class="s4">&quot;normal&quot;</span><span class="s2">)</span>
+                    <span class="s1">button</span><span class="s2">[</span><span class="s4">&quot;bg&quot;</span><span class="s2">] = </span><span class="s1">self</span><span class="s2">.</span><span class="s1">DEFAULT_BUTTON_COLOR</span>
+        <span class="s1">not_possible_moves </span><span class="s2">= [</span><span class="s1">move </span><span class="s0">for </span><span class="s1">move </span><span class="s0">in </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_board</span><span class="s2">.</span><span class="s1">cell_list_empty</span><span class="s2">() </span><span class="s0">if </span><span class="s1">move </span><span class="s0">not in </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_board</span><span class="s2">.</span><span class="s1">possible_moves</span><span class="s2">()]</span>
+        <span class="s0">for </span><span class="s1">move </span><span class="s0">in </span><span class="s1">not_possible_moves</span><span class="s2">:</span>
+            <span class="s1">row</span><span class="s2">, </span><span class="s1">col </span><span class="s2">= </span><span class="s1">move</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">_buttons</span><span class="s2">[</span><span class="s1">row</span><span class="s2">][</span><span class="s1">col</span><span class="s2">].</span><span class="s1">configure</span><span class="s2">(</span><span class="s1">state</span><span class="s2">=</span><span class="s4">&quot;disabled&quot;</span><span class="s2">)</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">_buttons</span><span class="s2">[</span><span class="s1">row</span><span class="s2">][</span><span class="s1">col</span><span class="s2">][</span><span class="s4">&quot;bg&quot;</span><span class="s2">] = </span><span class="s1">self</span><span class="s2">.</span><span class="s1">DISABLED_BUTTON_COLOR</span>
+
+    <span class="s0">def </span><span class="s1">forget_frame</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method makes all the widgets and frame be forgotten. it is used when 
+        the current game is over, as a means to reset the game&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_board </span><span class="s2">= </span><span class="s1">Board</span><span class="s2">(</span><span class="s1">randomize_board</span><span class="s2">())</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_buttons </span><span class="s2">= </span><span class="s1">list</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame</span><span class="s2">.</span><span class="s1">forget</span><span class="s2">()</span>
+
+</pre>
+</body>
+</html>

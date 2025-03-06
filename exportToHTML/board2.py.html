@@ -1,0 +1,254 @@
+<html>
+<head>
+<title>board2.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #5f826b; font-style: italic;}
+.s4 { color: #6aab73;}
+.s5 { color: #7a7e85;}
+.s6 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+board2.py</font>
+</center></td></tr></table>
+<pre><span class="s0">from </span><span class="s1">path </span><span class="s0">import </span><span class="s2">*</span>
+<span class="s0">from </span><span class="s1">typing </span><span class="s0">import </span><span class="s2">*</span>
+
+
+<span class="s0">class </span><span class="s1">Board</span><span class="s2">:</span>
+    <span class="s3">&quot;&quot;&quot; 
+    A class representing a board object in the game boggle 
+    Attributes: 
+    board (List[List[str]]) : the board of the game. 
+    path (class Path) : the current path being created on the board. 
+    prefix (str) : the current prefix that's created from the current path on board. 
+    dict_path_n (Dict[int:List[List[Tuple[int, int]]]]) : a dictionary that holds 
+    the current found paths (as a list of tuples). The keys are n; the length of the 
+    paths, and the values are the list of the paths (a list of lists of tuples) 
+    dict_word_n (Dict[int:List[List[Tuple[int, int]]]]) : a dictionary that holds 
+    the current found paths (as a list of tuples). The keys are n; the length of the 
+    words, and the values are the list of the paths (a list of lists of tuples) 
+    dict_found_words (Dict[str:List[Tuple[int, int]]]) : a dictionary that holds the 
+    current max paths that create each found word. The keys are the found word, 
+    the values are the longest path creating that word. Each key only has one value 
+    &quot;&quot;&quot;</span>
+    <span class="s0">def </span><span class="s1">__init__</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">board</span><span class="s2">: </span><span class="s1">List</span><span class="s2">[</span><span class="s1">List</span><span class="s2">[</span><span class="s1">str</span><span class="s2">]]):</span>
+        <span class="s3">&quot;&quot;&quot; 
+        constructor for board object - creates the board, 
+        an empty &quot;path&quot; which represents the current path, 
+        the prefix of that path as an empty string, and empty dictionaries. 
+        :param : board: two-dimensional list representing a board of letters 
+        &quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">__board </span><span class="s2">= </span><span class="s1">board</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">__path </span><span class="s2">= </span><span class="s1">Path</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">__prefix </span><span class="s2">= </span><span class="s4">&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">__dict_path_n </span><span class="s2">= </span><span class="s1">dict</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">__dict_word_n </span><span class="s2">= </span><span class="s1">dict</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">__dict_found_words </span><span class="s2">= </span><span class="s1">dict</span><span class="s2">()</span>
+
+    <span class="s0">def </span><span class="s1">__str__</span><span class="s2">(</span><span class="s1">self</span><span class="s2">) </span><span class="s1">-&gt; str</span><span class="s2">:</span>
+        <span class="s3">&quot;&quot;&quot; 
+        a function used to print out the board. 
+        :return: inclusive string of the board 
+        &quot;&quot;&quot;</span>
+        <span class="s1">print_board </span><span class="s2">= </span><span class="s4">&quot;&quot;</span>
+        <span class="s0">for </span><span class="s1">row </span><span class="s0">in </span><span class="s1">range</span><span class="s2">(</span><span class="s1">len</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">__board</span><span class="s2">)):</span>
+            <span class="s1">print_board </span><span class="s2">= </span><span class="s1">print_board </span><span class="s2">+ </span><span class="s4">&quot;</span><span class="s0">\n</span><span class="s4">&quot;</span>
+            <span class="s5"># after each line ends add to the variable of the resulted string a &quot;\n&quot;</span>
+            <span class="s0">for </span><span class="s1">column </span><span class="s0">in </span><span class="s1">range</span><span class="s2">(</span><span class="s1">len</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">__board</span><span class="s2">[</span><span class="s1">row</span><span class="s2">])):</span>
+                <span class="s1">print_board </span><span class="s2">= </span><span class="s1">print_board </span><span class="s2">+ </span><span class="s4">&quot;[&quot; </span><span class="s2">+ </span><span class="s1">str</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">__board</span><span class="s2">[</span><span class="s1">row</span><span class="s2">][</span><span class="s1">column</span><span class="s2">]) + </span><span class="s4">&quot;] &quot;</span>
+                <span class="s5"># for each cell add to the resulted string a representation</span>
+                <span class="s5"># of that cell in the shape of &quot;[&lt;letter_sequence&gt;]&quot;</span>
+        <span class="s0">return </span><span class="s1">print_board</span>
+
+    <span class="s0">def </span><span class="s1">cell_list_empty</span><span class="s2">(</span><span class="s1">self</span><span class="s2">) </span><span class="s1">-&gt; List</span><span class="s2">[</span><span class="s1">Tuple</span><span class="s2">[</span><span class="s1">int</span><span class="s2">, </span><span class="s1">int</span><span class="s2">]]:</span>
+        <span class="s3">&quot;&quot;&quot; 
+        :return: all coordinates on board that aren't used in current path 
+        &quot;&quot;&quot;</span>
+        <span class="s1">lst_cells </span><span class="s2">= []</span>
+        <span class="s0">for </span><span class="s1">row </span><span class="s0">in </span><span class="s1">range</span><span class="s2">(</span><span class="s1">len</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">__board</span><span class="s2">)):</span>
+            <span class="s0">for </span><span class="s1">column </span><span class="s0">in </span><span class="s1">range</span><span class="s2">(</span><span class="s1">len</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">__board</span><span class="s2">[</span><span class="s1">row</span><span class="s2">])):</span>
+                <span class="s0">if </span><span class="s2">(</span><span class="s1">row</span><span class="s2">, </span><span class="s1">column</span><span class="s2">) </span><span class="s0">not in </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__path</span><span class="s2">.</span><span class="s1">get_cords</span><span class="s2">():</span>
+                    <span class="s1">lst_cells</span><span class="s2">.</span><span class="s1">append</span><span class="s2">((</span><span class="s1">row</span><span class="s2">, </span><span class="s1">column</span><span class="s2">))</span>
+                <span class="s5"># add every cell on the board to the lst_cells if it is not</span>
+                <span class="s5"># part of the current path</span>
+        <span class="s0">return </span><span class="s1">lst_cells</span>
+
+    <span class="s0">def </span><span class="s1">possible_moves</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">word</span><span class="s2">: </span><span class="s1">str </span><span class="s2">= </span><span class="s0">None</span><span class="s2">) </span><span class="s1">-&gt; List</span><span class="s2">[</span><span class="s1">Tuple</span><span class="s2">[</span><span class="s1">int</span><span class="s2">, </span><span class="s1">int</span><span class="s2">]]:</span>
+        <span class="s3">&quot;&quot;&quot; 
+        check what coordinates can possibly be added to the path to eventually 
+        form the desired word (the input) 
+        :param word: represents the word to be created in the board (if possible) 
+        :return: list of coordinates on board around the previous coordinate, that carry a valid 
+        sequence of letters (a prefix of the suffix of a given word) 
+        &quot;&quot;&quot;</span>
+        <span class="s1">possible_moves </span><span class="s2">= </span><span class="s1">list</span><span class="s2">()</span>
+        <span class="s5"># possible_moves will hold all the coordinates that can potentially form the</span>
+        <span class="s5"># desired word</span>
+        <span class="s0">if </span><span class="s1">word</span><span class="s2">:</span>
+            <span class="s5"># if you are looking for certain word on board</span>
+            <span class="s1">suffix </span><span class="s2">= </span><span class="s1">word</span><span class="s2">[</span><span class="s1">len</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">__prefix</span><span class="s2">):]</span>
+            <span class="s5"># suffix will hold the remaining part of the desired word that has</span>
+            <span class="s5"># yet to be found</span>
+            <span class="s0">if </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__path</span><span class="s2">.</span><span class="s1">possible_moves</span><span class="s2">() == </span><span class="s4">&quot;All&quot;</span><span class="s2">:</span>
+                <span class="s0">for </span><span class="s1">coordinate </span><span class="s0">in </span><span class="s1">self</span><span class="s2">.</span><span class="s1">cell_list_empty</span><span class="s2">():</span>
+                    <span class="s0">if </span><span class="s1">suffix</span><span class="s2">.</span><span class="s1">startswith</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">__board</span><span class="s2">[</span><span class="s1">coordinate</span><span class="s2">[</span><span class="s6">0</span><span class="s2">]][</span><span class="s1">coordinate</span><span class="s2">[</span><span class="s6">1</span><span class="s2">]]):</span>
+                        <span class="s5"># if any move on the board is possible, go through every one</span>
+                        <span class="s5"># and add those that contain the prefix to possible_moves</span>
+                        <span class="s1">possible_moves</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span><span class="s1">coordinate</span><span class="s2">)</span>
+            <span class="s0">else</span><span class="s2">:</span>
+                <span class="s0">for </span><span class="s1">coordinate </span><span class="s0">in </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__path</span><span class="s2">.</span><span class="s1">possible_moves</span><span class="s2">():</span>
+                    <span class="s0">if </span><span class="s1">coordinate </span><span class="s0">in </span><span class="s1">self</span><span class="s2">.</span><span class="s1">cell_list_empty</span><span class="s2">() </span><span class="s0">and </span><span class="s1">suffix</span><span class="s2">.</span><span class="s1">startswith</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">__board</span><span class="s2">[</span><span class="s1">coordinate</span><span class="s2">[</span><span class="s6">0</span><span class="s2">]][</span><span class="s1">coordinate</span><span class="s2">[</span><span class="s6">1</span><span class="s2">]]):</span>
+                        <span class="s5"># for every possible move, check if the cell contains the required prefix</span>
+                        <span class="s5"># and that it is free. If so, add this coordinate to possible_moves</span>
+                        <span class="s1">possible_moves</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span><span class="s1">coordinate</span><span class="s2">)</span>
+        <span class="s0">else</span><span class="s2">:</span>
+            <span class="s5"># if you want to return all the possible moves, not dependent on a specific word</span>
+            <span class="s0">if </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__path</span><span class="s2">.</span><span class="s1">possible_moves</span><span class="s2">() == </span><span class="s4">&quot;All&quot;</span><span class="s2">:</span>
+                <span class="s5"># if all the moves are possible for the current path,</span>
+                <span class="s5"># return all the empty cells on board</span>
+                <span class="s0">return </span><span class="s1">self</span><span class="s2">.</span><span class="s1">cell_list_empty</span><span class="s2">()</span>
+            <span class="s0">else</span><span class="s2">:</span>
+                <span class="s0">for </span><span class="s1">coordinate </span><span class="s0">in </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__path</span><span class="s2">.</span><span class="s1">possible_moves</span><span class="s2">():</span>
+                    <span class="s5"># otherwise, add the valid moves that are 'empty' coordinates to possible_moves</span>
+                    <span class="s0">if </span><span class="s1">coordinate </span><span class="s0">in </span><span class="s1">self</span><span class="s2">.</span><span class="s1">cell_list_empty</span><span class="s2">():</span>
+                        <span class="s1">possible_moves</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span><span class="s1">coordinate</span><span class="s2">)</span>
+        <span class="s0">return </span><span class="s1">possible_moves</span>
+
+    <span class="s0">def </span><span class="s1">extend_path</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">cord</span><span class="s2">: </span><span class="s1">Tuple</span><span class="s2">[</span><span class="s1">int</span><span class="s2">, </span><span class="s1">int</span><span class="s2">]) </span><span class="s1">-&gt; bool</span><span class="s2">:</span>
+        <span class="s3">&quot;&quot;&quot; 
+        extends the current path on the board if possible 
+        :param cord: a coordinate on board (or not) 
+        :return: boolean value, representing if the extension was successful or not 
+        &quot;&quot;&quot;</span>
+        <span class="s0">if </span><span class="s1">cord </span><span class="s0">in </span><span class="s1">self</span><span class="s2">.</span><span class="s1">possible_moves</span><span class="s2">():</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">__path</span><span class="s2">.</span><span class="s1">add_cord</span><span class="s2">(</span><span class="s1">cord</span><span class="s2">)</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">__prefix </span><span class="s2">= </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__prefix </span><span class="s2">+ </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__board</span><span class="s2">[</span><span class="s1">cord</span><span class="s2">[</span><span class="s6">0</span><span class="s2">]][</span><span class="s1">cord</span><span class="s2">[</span><span class="s6">1</span><span class="s2">]]</span>
+            <span class="s0">return True</span>
+        <span class="s0">return False</span>
+
+    <span class="s0">def </span><span class="s1">shorten_path</span><span class="s2">(</span><span class="s1">self</span><span class="s2">) </span><span class="s1">-&gt; Tuple</span><span class="s2">[</span><span class="s1">int</span><span class="s2">, </span><span class="s1">int</span><span class="s2">] </span><span class="s0">or None</span><span class="s2">:</span>
+        <span class="s3">&quot;&quot;&quot; 
+        shortens the path by one 
+        &quot;&quot;&quot;</span>
+        <span class="s0">if not </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__path</span><span class="s2">.</span><span class="s1">get_cords</span><span class="s2">():</span>
+            <span class="s0">return</span>
+        <span class="s5"># if the path is empty do nothing</span>
+        <span class="s5"># else: shorten the path and update qualities accordingly</span>
+        <span class="s1">cord_removed </span><span class="s2">= </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__path</span><span class="s2">.</span><span class="s1">remove_last</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">__prefix </span><span class="s2">= </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__prefix</span><span class="s2">[:-(</span><span class="s1">len</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">__board</span><span class="s2">[</span><span class="s1">cord_removed</span><span class="s2">[</span><span class="s6">0</span><span class="s2">]][</span><span class="s1">cord_removed</span><span class="s2">[</span><span class="s6">1</span><span class="s2">]]))]</span>
+        <span class="s5"># removed the last appended coordinate from the current path</span>
+        <span class="s5"># remove the previously added letters from the end of the prefix</span>
+        <span class="s0">return </span><span class="s1">cord_removed</span>
+
+    <span class="s0">def </span><span class="s1">get_word</span><span class="s2">(</span><span class="s1">self</span><span class="s2">) </span><span class="s1">-&gt; str</span><span class="s2">:</span>
+        <span class="s3">&quot;&quot;&quot; 
+        :return: the prefix created by current path on board 
+        &quot;&quot;&quot;</span>
+        <span class="s0">return </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__prefix</span>
+
+    <span class="s0">def </span><span class="s1">get_path</span><span class="s2">(</span><span class="s1">self</span><span class="s2">) </span><span class="s1">-&gt; Path</span><span class="s2">:</span>
+        <span class="s3">&quot;&quot;&quot; 
+        :return: the current path on board 
+        &quot;&quot;&quot;</span>
+        <span class="s0">return </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__path</span>
+
+    <span class="s0">def </span><span class="s1">initialize_path</span><span class="s2">(</span><span class="s1">self</span><span class="s2">) </span><span class="s1">-&gt; </span><span class="s0">None</span><span class="s2">:</span>
+        <span class="s3">&quot;&quot;&quot;resets the current path and the prefix created by it on board&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">__path </span><span class="s2">= </span><span class="s1">Path</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">__prefix </span><span class="s2">= </span><span class="s4">&quot;&quot;</span>
+
+    <span class="s0">def </span><span class="s1">find_word_on_board</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">word</span><span class="s2">: </span><span class="s1">str</span><span class="s2">) </span><span class="s1">-&gt; </span><span class="s0">None</span><span class="s2">:</span>
+        <span class="s3">&quot;&quot;&quot; 
+        this method finds all the different existing paths to create a specific 
+        word (its input). The paths are stored in multiple different dictionaries, 
+        all for different purposes 
+        :param word: a word given to find on board 
+        :return: None. function only updates dictionaries of board. 
+        &quot;&quot;&quot;</span>
+        <span class="s1">path_coordinates </span><span class="s2">= </span><span class="s1">self</span><span class="s2">.</span><span class="s1">get_path</span><span class="s2">().</span><span class="s1">get_cords</span><span class="s2">()</span>
+        <span class="s5"># variable holds the coordinates of the path in list</span>
+        <span class="s1">path_length </span><span class="s2">= </span><span class="s1">self</span><span class="s2">.</span><span class="s1">get_path</span><span class="s2">().</span><span class="s1">get_length</span><span class="s2">()</span>
+        <span class="s5"># variable holds the length of the path</span>
+        <span class="s5"># BASE CASE!</span>
+        <span class="s0">if </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__prefix </span><span class="s2">== </span><span class="s1">word</span><span class="s2">:</span>
+            <span class="s5"># if current prefix on board is the word, map to the dictionaries accordingly:</span>
+            <span class="s0">if </span><span class="s1">word </span><span class="s0">not in </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__dict_found_words </span><span class="s0">or </span><span class="s1">path_length </span><span class="s2">&gt; </span><span class="s1">len</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">__dict_found_words</span><span class="s2">[</span><span class="s1">word</span><span class="s2">]):</span>
+                <span class="s1">self</span><span class="s2">.</span><span class="s1">__dict_found_words</span><span class="s2">[</span><span class="s1">word</span><span class="s2">] = </span><span class="s1">path_coordinates</span><span class="s2">[:]</span>
+                <span class="s5"># if the word wasn't found yet, or the path currently found is longer than</span>
+                <span class="s5"># the path currently held for &quot;word&quot;, update value in dictionary</span>
+            <span class="s0">if </span><span class="s1">len</span><span class="s2">(</span><span class="s1">word</span><span class="s2">) </span><span class="s0">not in </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__dict_word_n</span><span class="s2">:</span>
+                <span class="s5"># if key for the current path length doesn't exist - create it with empty list</span>
+                <span class="s1">self</span><span class="s2">.</span><span class="s1">__dict_word_n</span><span class="s2">[</span><span class="s1">len</span><span class="s2">(</span><span class="s1">word</span><span class="s2">)] = []</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">__dict_word_n</span><span class="s2">[</span><span class="s1">len</span><span class="s2">(</span><span class="s1">word</span><span class="s2">)].</span><span class="s1">append</span><span class="s2">(</span><span class="s1">path_coordinates</span><span class="s2">[:])</span>
+            <span class="s5"># add a copy of the path coordinates to the dictionary at the correct key.</span>
+            <span class="s5"># key (key= n -&gt; length of word)</span>
+            <span class="s0">if </span><span class="s1">self</span><span class="s2">.</span><span class="s1">get_path</span><span class="s2">().</span><span class="s1">get_length</span><span class="s2">() </span><span class="s0">not in </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__dict_path_n</span><span class="s2">:</span>
+                <span class="s5"># if key for the current word length doesn't exist - create it with empty list</span>
+                <span class="s1">self</span><span class="s2">.</span><span class="s1">__dict_path_n</span><span class="s2">[</span><span class="s1">self</span><span class="s2">.</span><span class="s1">get_path</span><span class="s2">().</span><span class="s1">get_length</span><span class="s2">()] = []</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">__dict_path_n</span><span class="s2">[</span><span class="s1">self</span><span class="s2">.</span><span class="s1">get_path</span><span class="s2">().</span><span class="s1">get_length</span><span class="s2">()].</span><span class="s1">append</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">get_path</span><span class="s2">().</span><span class="s1">get_cords</span><span class="s2">()[:])</span>
+            <span class="s5"># add a copy of the path coordinates to the dictionary at the correct key.</span>
+            <span class="s5"># key (key= n -&gt; length of path)</span>
+        <span class="s0">else</span><span class="s2">:</span>
+            <span class="s1">valid_moves </span><span class="s2">= </span><span class="s1">self</span><span class="s2">.</span><span class="s1">possible_moves</span><span class="s2">(</span><span class="s1">word</span><span class="s2">)</span>
+            <span class="s5"># variable holds all valid next moves on board in order to continue to</span>
+            <span class="s5"># create &quot;word&quot; from current board status</span>
+            <span class="s0">for </span><span class="s1">move </span><span class="s0">in </span><span class="s1">valid_moves</span><span class="s2">:</span>
+                <span class="s1">self</span><span class="s2">.</span><span class="s1">extend_path</span><span class="s2">(</span><span class="s1">move</span><span class="s2">)</span>
+                <span class="s5"># try to extend</span>
+                <span class="s1">self</span><span class="s2">.</span><span class="s1">find_word_on_board</span><span class="s2">(</span><span class="s1">word</span><span class="s2">)</span>
+                <span class="s5"># call recursively to continue to build the word</span>
+                <span class="s1">self</span><span class="s2">.</span><span class="s1">shorten_path</span><span class="s2">()</span>
+                <span class="s5"># BACKTRACKING &lt;3</span>
+
+    <span class="s0">def </span><span class="s1">get_paths_length_n</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">n</span><span class="s2">: </span><span class="s1">int</span><span class="s2">) </span><span class="s1">-&gt; List</span><span class="s2">[</span><span class="s1">List</span><span class="s2">[</span><span class="s1">Tuple</span><span class="s2">[</span><span class="s1">int</span><span class="s2">, </span><span class="s1">int</span><span class="s2">]]]:</span>
+        <span class="s3">&quot;&quot;&quot; 
+        :param n: represents length of paths 
+        :return: all paths in the length of n currently saved in dictionary 
+        &quot;&quot;&quot;</span>
+        <span class="s0">if </span><span class="s1">n </span><span class="s0">in </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__dict_path_n</span><span class="s2">:</span>
+            <span class="s0">return </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__dict_path_n</span><span class="s2">[</span><span class="s1">n</span><span class="s2">]</span>
+        <span class="s0">else</span><span class="s2">:</span>
+            <span class="s0">return </span><span class="s2">[]</span>
+
+    <span class="s0">def </span><span class="s1">get_words_length_n</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">n</span><span class="s2">: </span><span class="s1">int</span><span class="s2">) </span><span class="s1">-&gt; List</span><span class="s2">[</span><span class="s1">List</span><span class="s2">[</span><span class="s1">Tuple</span><span class="s2">[</span><span class="s1">int</span><span class="s2">, </span><span class="s1">int</span><span class="s2">]]]:</span>
+        <span class="s3">&quot;&quot;&quot; 
+        :param n: represents length of words 
+        :return: all paths of words in the length of n currently saved in dictionary 
+        &quot;&quot;&quot;</span>
+        <span class="s0">if </span><span class="s1">n </span><span class="s0">in </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__dict_word_n</span><span class="s2">:</span>
+            <span class="s0">return </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__dict_word_n</span><span class="s2">[</span><span class="s1">n</span><span class="s2">]</span>
+        <span class="s0">else</span><span class="s2">:</span>
+            <span class="s0">return </span><span class="s2">[]</span>
+
+    <span class="s0">def </span><span class="s1">get_high_score</span><span class="s2">(</span><span class="s1">self</span><span class="s2">) </span><span class="s1">-&gt; List</span><span class="s2">[</span><span class="s1">List</span><span class="s2">[</span><span class="s1">Tuple</span><span class="s2">[</span><span class="s1">int</span><span class="s2">, </span><span class="s1">int</span><span class="s2">]]]:</span>
+        <span class="s3">&quot;&quot;&quot; 
+        :return: list of all the maximal paths of each word currently found on board 
+        &quot;&quot;&quot;</span>
+        <span class="s0">return </span><span class="s1">list</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">__dict_found_words</span><span class="s2">.</span><span class="s1">values</span><span class="s2">())</span>
+
+    <span class="s0">def </span><span class="s1">get_found_words</span><span class="s2">(</span><span class="s1">self</span><span class="s2">) </span><span class="s1">-&gt; List</span><span class="s2">[</span><span class="s1">str</span><span class="s2">]:</span>
+        <span class="s3">&quot;&quot;&quot; 
+        :return: list of all found words on board 
+        &quot;&quot;&quot;</span>
+        <span class="s0">return </span><span class="s1">list</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">__dict_found_words</span><span class="s2">.</span><span class="s1">keys</span><span class="s2">())</span>
+
+    <span class="s0">def </span><span class="s1">get_board</span><span class="s2">(</span><span class="s1">self</span><span class="s2">) </span><span class="s1">-&gt; List</span><span class="s2">[</span><span class="s1">List</span><span class="s2">[</span><span class="s1">str</span><span class="s2">]]:</span>
+        <span class="s3">&quot;&quot;&quot; 
+        :return: the board filled with letters (in the form of two-dimensional list and not class object) 
+        &quot;&quot;&quot;</span>
+        <span class="s0">return </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__board</span>
+
+
+
+
+</pre>
+</body>
+</html>

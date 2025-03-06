@@ -1,0 +1,77 @@
+<html>
+<head>
+<title>boggle_board_randomizer.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #7a7e85;}
+.s1 { color: #bcbec4;}
+.s2 { color: #cf8e6d;}
+.s3 { color: #bcbec4;}
+.s4 { color: #2aacb8;}
+.s5 { color: #6aab73;}
+.s6 { color: #5f826b; font-style: italic;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+boggle_board_randomizer.py</font>
+</center></td></tr></table>
+<pre><span class="s0">##############################################################################</span>
+<span class="s0"># FILE: boggle_board_randomizer.py</span>
+<span class="s0"># EXERCISE: Intro2cs ex11 2022-2023</span>
+<span class="s0"># WRITER: Intro2cs staff</span>
+<span class="s0"># DESCRIPTION:A helper file for ex11 that randomizes a Boggle board</span>
+<span class="s0">##############################################################################</span>
+<span class="s2">import </span><span class="s1">random</span>
+<span class="s2">from </span><span class="s1">typing </span><span class="s2">import </span><span class="s1">List</span>
+
+
+<span class="s1">BOARD_SIZE </span><span class="s3">= </span><span class="s4">4</span>
+<span class="s1">LETTERS </span><span class="s3">= [</span>
+    <span class="s3">[</span><span class="s5">'A'</span><span class="s3">, </span><span class="s5">'E'</span><span class="s3">, </span><span class="s5">'A'</span><span class="s3">, </span><span class="s5">'N'</span><span class="s3">, </span><span class="s5">'E'</span><span class="s3">, </span><span class="s5">'G'</span><span class="s3">],</span>
+    <span class="s3">[</span><span class="s5">'A'</span><span class="s3">, </span><span class="s5">'H'</span><span class="s3">, </span><span class="s5">'S'</span><span class="s3">, </span><span class="s5">'P'</span><span class="s3">, </span><span class="s5">'C'</span><span class="s3">, </span><span class="s5">'O'</span><span class="s3">],</span>
+    <span class="s3">[</span><span class="s5">'A'</span><span class="s3">, </span><span class="s5">'S'</span><span class="s3">, </span><span class="s5">'P'</span><span class="s3">, </span><span class="s5">'F'</span><span class="s3">, </span><span class="s5">'F'</span><span class="s3">, </span><span class="s5">'K'</span><span class="s3">],</span>
+    <span class="s3">[</span><span class="s5">'O'</span><span class="s3">, </span><span class="s5">'B'</span><span class="s3">, </span><span class="s5">'J'</span><span class="s3">, </span><span class="s5">'O'</span><span class="s3">, </span><span class="s5">'A'</span><span class="s3">, </span><span class="s5">'B'</span><span class="s3">],</span>
+    <span class="s3">[</span><span class="s5">'I'</span><span class="s3">, </span><span class="s5">'O'</span><span class="s3">, </span><span class="s5">'T'</span><span class="s3">, </span><span class="s5">'M'</span><span class="s3">, </span><span class="s5">'U'</span><span class="s3">, </span><span class="s5">'C'</span><span class="s3">],</span>
+    <span class="s3">[</span><span class="s5">'R'</span><span class="s3">, </span><span class="s5">'Y'</span><span class="s3">, </span><span class="s5">'V'</span><span class="s3">, </span><span class="s5">'D'</span><span class="s3">, </span><span class="s5">'E'</span><span class="s3">, </span><span class="s5">'L'</span><span class="s3">],</span>
+    <span class="s3">[</span><span class="s5">'L'</span><span class="s3">, </span><span class="s5">'R'</span><span class="s3">, </span><span class="s5">'E'</span><span class="s3">, </span><span class="s5">'I'</span><span class="s3">, </span><span class="s5">'X'</span><span class="s3">, </span><span class="s5">'D'</span><span class="s3">],</span>
+    <span class="s3">[</span><span class="s5">'E'</span><span class="s3">, </span><span class="s5">'I'</span><span class="s3">, </span><span class="s5">'U'</span><span class="s3">, </span><span class="s5">'N'</span><span class="s3">, </span><span class="s5">'E'</span><span class="s3">, </span><span class="s5">'S'</span><span class="s3">],</span>
+    <span class="s3">[</span><span class="s5">'W'</span><span class="s3">, </span><span class="s5">'N'</span><span class="s3">, </span><span class="s5">'G'</span><span class="s3">, </span><span class="s5">'E'</span><span class="s3">, </span><span class="s5">'E'</span><span class="s3">, </span><span class="s5">'H'</span><span class="s3">],</span>
+    <span class="s3">[</span><span class="s5">'L'</span><span class="s3">, </span><span class="s5">'N'</span><span class="s3">, </span><span class="s5">'H'</span><span class="s3">, </span><span class="s5">'N'</span><span class="s3">, </span><span class="s5">'R'</span><span class="s3">, </span><span class="s5">'Z'</span><span class="s3">],</span>
+    <span class="s3">[</span><span class="s5">'T'</span><span class="s3">, </span><span class="s5">'S'</span><span class="s3">, </span><span class="s5">'T'</span><span class="s3">, </span><span class="s5">'I'</span><span class="s3">, </span><span class="s5">'Y'</span><span class="s3">, </span><span class="s5">'D'</span><span class="s3">],</span>
+    <span class="s3">[</span><span class="s5">'O'</span><span class="s3">, </span><span class="s5">'W'</span><span class="s3">, </span><span class="s5">'T'</span><span class="s3">, </span><span class="s5">'O'</span><span class="s3">, </span><span class="s5">'A'</span><span class="s3">, </span><span class="s5">'T'</span><span class="s3">],</span>
+    <span class="s3">[</span><span class="s5">'E'</span><span class="s3">, </span><span class="s5">'R'</span><span class="s3">, </span><span class="s5">'T'</span><span class="s3">, </span><span class="s5">'T'</span><span class="s3">, </span><span class="s5">'Y'</span><span class="s3">, </span><span class="s5">'L'</span><span class="s3">],</span>
+    <span class="s3">[</span><span class="s5">'T'</span><span class="s3">, </span><span class="s5">'O'</span><span class="s3">, </span><span class="s5">'E'</span><span class="s3">, </span><span class="s5">'S'</span><span class="s3">, </span><span class="s5">'S'</span><span class="s3">, </span><span class="s5">'I'</span><span class="s3">],</span>
+    <span class="s3">[</span><span class="s5">'T'</span><span class="s3">, </span><span class="s5">'E'</span><span class="s3">, </span><span class="s5">'R'</span><span class="s3">, </span><span class="s5">'W'</span><span class="s3">, </span><span class="s5">'H'</span><span class="s3">, </span><span class="s5">'V'</span><span class="s3">],</span>
+    <span class="s3">[</span><span class="s5">'N'</span><span class="s3">, </span><span class="s5">'U'</span><span class="s3">, </span><span class="s5">'I'</span><span class="s3">, </span><span class="s5">'H'</span><span class="s3">, </span><span class="s5">'M'</span><span class="s3">, </span><span class="s5">'QU'</span><span class="s3">]</span>
+<span class="s3">]</span>
+
+
+<span class="s2">def </span><span class="s1">randomize_board</span><span class="s3">(</span><span class="s1">dice_list</span><span class="s3">: </span><span class="s1">List</span><span class="s3">[</span><span class="s1">List</span><span class="s3">[</span><span class="s1">str</span><span class="s3">]] = </span><span class="s1">LETTERS</span><span class="s3">) </span><span class="s1">-&gt; List</span><span class="s3">[</span><span class="s1">List</span><span class="s3">[</span><span class="s1">str</span><span class="s3">]]:</span>
+    <span class="s6">&quot;&quot;&quot; 
+    Creates a random Boggle board. 
+    :param dice_list: 2-dimensional list of letters to generate the board from. 
+    :return: a 2D list of strings representing a random Boggle board. 
+    &quot;&quot;&quot;</span>
+    <span class="s1">dice_indices </span><span class="s3">= </span><span class="s1">list</span><span class="s3">(</span><span class="s1">range</span><span class="s3">(</span><span class="s1">len</span><span class="s3">(</span><span class="s1">dice_list</span><span class="s3">)))</span>
+    <span class="s1">random</span><span class="s3">.</span><span class="s1">shuffle</span><span class="s3">(</span><span class="s1">dice_indices</span><span class="s3">)</span>
+    <span class="s1">dice_indices_iter </span><span class="s3">= </span><span class="s1">iter</span><span class="s3">(</span><span class="s1">dice_indices</span><span class="s3">)</span>
+    <span class="s1">board </span><span class="s3">= []</span>
+    <span class="s2">for </span><span class="s1">i </span><span class="s2">in </span><span class="s1">range</span><span class="s3">(</span><span class="s1">BOARD_SIZE</span><span class="s3">):</span>
+        <span class="s1">row </span><span class="s3">= []</span>
+        <span class="s2">for </span><span class="s1">j </span><span class="s2">in </span><span class="s1">range</span><span class="s3">(</span><span class="s1">BOARD_SIZE</span><span class="s3">):</span>
+            <span class="s1">die </span><span class="s3">= </span><span class="s1">dice_list</span><span class="s3">[</span><span class="s1">next</span><span class="s3">(</span><span class="s1">dice_indices_iter</span><span class="s3">)]</span>
+            <span class="s1">letter </span><span class="s3">= </span><span class="s1">random</span><span class="s3">.</span><span class="s1">choice</span><span class="s3">(</span><span class="s1">die</span><span class="s3">)</span>
+            <span class="s1">row</span><span class="s3">.</span><span class="s1">append</span><span class="s3">(</span><span class="s1">letter</span><span class="s3">)</span>
+        <span class="s1">board</span><span class="s3">.</span><span class="s1">append</span><span class="s3">(</span><span class="s1">row</span><span class="s3">)</span>
+    <span class="s2">return </span><span class="s1">board</span>
+
+
+<span class="s2">if </span><span class="s1">__name__ </span><span class="s3">== </span><span class="s5">&quot;__main__&quot;</span><span class="s3">:</span>
+    <span class="s2">from </span><span class="s1">pprint </span><span class="s2">import </span><span class="s1">pprint</span>
+    <span class="s1">pprint</span><span class="s3">(</span><span class="s1">randomize_board</span><span class="s3">())</span>
+</pre>
+</body>
+</html>

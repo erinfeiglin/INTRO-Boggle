@@ -1,0 +1,107 @@
+<html>
+<head>
+<title>inputlineframe.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #5f826b; font-style: italic;}
+.s4 { color: #6aab73;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+inputlineframe.py</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">tkinter </span><span class="s0">as </span><span class="s1">tk</span>
+
+
+<span class="s0">def </span><span class="s1">create_dictionary</span><span class="s2">() </span><span class="s1">-&gt; set</span><span class="s2">:</span>
+    <span class="s3">&quot;&quot;&quot;this function takes the txt file containing all the valid words 
+    and converts it into a set, to be used as a variable in the game&quot;&quot;&quot;</span>
+    <span class="s1">list_of_words </span><span class="s2">= </span><span class="s1">set</span><span class="s2">()</span>
+    <span class="s0">with </span><span class="s1">open</span><span class="s2">(</span><span class="s4">&quot;boggle_dict.txt&quot;</span><span class="s2">) </span><span class="s0">as </span><span class="s1">dictionary</span><span class="s2">:</span>
+        <span class="s1">lines </span><span class="s2">= </span><span class="s1">dictionary</span><span class="s2">.</span><span class="s1">readlines</span><span class="s2">()</span>
+        <span class="s0">for </span><span class="s1">line </span><span class="s0">in </span><span class="s1">lines</span><span class="s2">:</span>
+            <span class="s1">list_of_words</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">line</span><span class="s2">.</span><span class="s1">rstrip</span><span class="s2">())</span>
+    <span class="s0">return </span><span class="s1">list_of_words</span>
+
+
+<span class="s0">class </span><span class="s1">InputFrame</span><span class="s2">:</span>
+    <span class="s3">&quot;&quot;&quot;this class is responsible for the storing the current word, for checking 
+    if the word is viable, and for allowing the user to backspace if he pleases&quot;&quot;&quot;</span>
+
+    <span class="s1">GRAY </span><span class="s2">= </span><span class="s4">&quot;lightgray&quot;</span>
+    <span class="s1">SMALL_TEXT </span><span class="s2">= (</span><span class="s4">&quot;Courier&quot;</span><span class="s2">, </span><span class="s5">20</span><span class="s2">)</span>
+    <span class="s1">BIG_TEXT </span><span class="s2">= (</span><span class="s4">&quot;Courier&quot;</span><span class="s2">, </span><span class="s5">12</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">__init__</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">root</span><span class="s2">):</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_words </span><span class="s2">= </span><span class="s1">create_dictionary</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_main_window </span><span class="s2">= </span><span class="s1">root</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_user_input_frame </span><span class="s2">= </span><span class="s0">None</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_curr_word </span><span class="s2">= </span><span class="s0">None</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_check_button </span><span class="s2">= </span><span class="s0">None</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_backspace </span><span class="s2">= </span><span class="s0">None</span>
+
+    <span class="s0">def </span><span class="s1">start_frame</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method creates the necessary frame and widgets&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_create_frame</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_create_widgets</span><span class="s2">()</span>
+
+    <span class="s0">def </span><span class="s1">_create_frame</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method creates the frame that will contain the widgets&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_user_input_frame </span><span class="s2">= </span><span class="s1">tk</span><span class="s2">.</span><span class="s1">Frame</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_main_window</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_user_input_frame</span><span class="s2">.</span><span class="s1">pack</span><span class="s2">(</span><span class="s1">fill</span><span class="s2">=</span><span class="s1">tk</span><span class="s2">.</span><span class="s1">BOTH</span><span class="s2">, </span><span class="s1">expand</span><span class="s2">=</span><span class="s0">True</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">_create_widgets</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method creates and packs the widgets into the created frame. 
+        it creates a label widget that will contain the current turn's word, 
+        a button widget that when pressed will check if the found word is valid, 
+        and another button that when pressed, will remove the user's previous move&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_curr_word </span><span class="s2">= </span><span class="s1">tk</span><span class="s2">.</span><span class="s1">Label</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_user_input_frame</span><span class="s2">, </span><span class="s1">text</span><span class="s2">=</span><span class="s4">&quot;&quot;</span><span class="s2">, </span><span class="s1">font</span><span class="s2">=</span><span class="s1">self</span><span class="s2">.</span><span class="s1">BIG_TEXT</span><span class="s2">,</span>
+                                   <span class="s1">width</span><span class="s2">=</span><span class="s5">20</span><span class="s2">, </span><span class="s1">bg</span><span class="s2">=</span><span class="s1">self</span><span class="s2">.</span><span class="s1">GRAY</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_curr_word</span><span class="s2">.</span><span class="s1">pack</span><span class="s2">(</span><span class="s1">side</span><span class="s2">=</span><span class="s4">&quot;left&quot;</span><span class="s2">, </span><span class="s1">fill</span><span class="s2">=</span><span class="s1">tk</span><span class="s2">.</span><span class="s1">BOTH</span><span class="s2">, </span><span class="s1">expand</span><span class="s2">=</span><span class="s0">True</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_check_button </span><span class="s2">= </span><span class="s1">tk</span><span class="s2">.</span><span class="s1">Button</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_user_input_frame</span><span class="s2">, </span><span class="s1">text</span><span class="s2">=</span><span class="s4">&quot;check&quot;</span><span class="s2">, </span><span class="s1">font</span><span class="s2">=</span><span class="s1">self</span><span class="s2">.</span><span class="s1">SMALL_TEXT</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_check_button</span><span class="s2">.</span><span class="s1">pack</span><span class="s2">(</span><span class="s1">side</span><span class="s2">=</span><span class="s4">&quot;left&quot;</span><span class="s2">, </span><span class="s1">fill</span><span class="s2">=</span><span class="s1">tk</span><span class="s2">.</span><span class="s1">BOTH</span><span class="s2">, </span><span class="s1">expand</span><span class="s2">=</span><span class="s0">True</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_backspace </span><span class="s2">= </span><span class="s1">tk</span><span class="s2">.</span><span class="s1">Button</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_user_input_frame</span><span class="s2">, </span><span class="s1">text</span><span class="s2">=</span><span class="s4">&quot;backspace&quot;</span><span class="s2">, </span><span class="s1">font</span><span class="s2">=</span><span class="s1">self</span><span class="s2">.</span><span class="s1">SMALL_TEXT</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_backspace</span><span class="s2">.</span><span class="s1">pack</span><span class="s2">(</span><span class="s1">side</span><span class="s2">=</span><span class="s4">&quot;left&quot;</span><span class="s2">, </span><span class="s1">fill</span><span class="s2">=</span><span class="s1">tk</span><span class="s2">.</span><span class="s1">BOTH</span><span class="s2">, </span><span class="s1">expand</span><span class="s2">=</span><span class="s0">True</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">set_backspace_cmd</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">cmd</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;a method used to set the backspace button's command (used in the 
+        main class; bogglegame, when starting the game)&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_backspace</span><span class="s2">.</span><span class="s1">configure</span><span class="s2">(</span><span class="s1">command</span><span class="s2">=</span><span class="s1">cmd</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">set_check_cmd</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">cmd</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;a method used to set the check button's command (used in the 
+        main class; bogglegame, when starting the game)&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_check_button</span><span class="s2">.</span><span class="s1">configure</span><span class="s2">(</span><span class="s1">command</span><span class="s2">=</span><span class="s1">cmd</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">set_curr_word</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">some_text</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;a method used to set the curr_word widget's text to the specific word/letters 
+        chosen by the user 
+        Used to update the current word when the board's buttons are pressed (including 
+        when the backspace button is pressed; to remove the previous move's letter(s))&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_curr_word</span><span class="s2">[</span><span class="s4">&quot;text&quot;</span><span class="s2">] = </span><span class="s1">some_text</span>
+
+    <span class="s0">def </span><span class="s1">get_dictionary</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;a method used to return the words of the dictionary&quot;&quot;&quot;</span>
+        <span class="s0">return </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_words</span>
+
+    <span class="s0">def </span><span class="s1">get_curr_word</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;a method used to return the current chosen word/letters&quot;&quot;&quot;</span>
+        <span class="s0">return </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_curr_word</span><span class="s2">[</span><span class="s4">&quot;text&quot;</span><span class="s2">]</span>
+
+    <span class="s0">def </span><span class="s1">forget_widgets</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method makes all the widgets and frame be forgotten. it is used when 
+        the current game is over, as a means to reset the game&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_user_input_frame</span><span class="s2">.</span><span class="s1">forget</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_curr_word</span><span class="s2">.</span><span class="s1">forget</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_check_button</span><span class="s2">.</span><span class="s1">forget</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_backspace</span><span class="s2">.</span><span class="s1">forget</span><span class="s2">()</span>
+</pre>
+</body>
+</html>

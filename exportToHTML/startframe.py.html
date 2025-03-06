@@ -1,0 +1,93 @@
+<html>
+<head>
+<title>startframe.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #5f826b; font-style: italic;}
+.s4 { color: #6aab73;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+startframe.py</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">tkinter </span><span class="s0">as </span><span class="s1">tk</span>
+
+
+<span class="s0">class </span><span class="s1">StartMenu</span><span class="s2">:</span>
+    <span class="s3">&quot;&quot;&quot;this class is responsible for creating the start screen/menu&quot;&quot;&quot;</span>
+
+    <span class="s1">SMALL_TEXT </span><span class="s2">= (</span><span class="s4">&quot;Courier&quot;</span><span class="s2">, </span><span class="s5">20</span><span class="s2">)</span>
+    <span class="s1">BIG_TEXT </span><span class="s2">= (</span><span class="s4">&quot;Courier&quot;</span><span class="s2">, </span><span class="s5">30</span><span class="s2">)</span>
+    <span class="s1">PADDING </span><span class="s2">= </span><span class="s5">4</span>
+    <span class="s1">GREEN </span><span class="s2">= </span><span class="s4">&quot;green&quot;</span>
+
+    <span class="s0">def </span><span class="s1">__init__</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">root</span><span class="s2">):</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_main_window </span><span class="s2">= </span><span class="s1">root</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_welcome </span><span class="s2">= </span><span class="s1">tk</span><span class="s2">.</span><span class="s1">Label</span><span class="s2">(</span><span class="s1">root</span><span class="s2">, </span><span class="s1">text</span><span class="s2">=</span><span class="s4">&quot;welcome to boggle!&quot;</span><span class="s2">, </span><span class="s1">font</span><span class="s2">=</span><span class="s1">self</span><span class="s2">.</span><span class="s1">BIG_TEXT</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_welcome</span><span class="s2">.</span><span class="s1">pack</span><span class="s2">(</span><span class="s1">side</span><span class="s2">=</span><span class="s4">&quot;top&quot;</span><span class="s2">, </span><span class="s1">fill</span><span class="s2">=</span><span class="s1">tk</span><span class="s2">.</span><span class="s1">X</span><span class="s2">, </span><span class="s1">expand</span><span class="s2">=</span><span class="s0">True</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_start_button </span><span class="s2">= </span><span class="s1">tk</span><span class="s2">.</span><span class="s1">Button</span><span class="s2">(</span><span class="s1">root</span><span class="s2">, </span><span class="s1">text</span><span class="s2">=</span><span class="s4">&quot;start&quot;</span><span class="s2">, </span><span class="s1">bg</span><span class="s2">=</span><span class="s1">self</span><span class="s2">.</span><span class="s1">GREEN</span><span class="s2">, </span><span class="s1">font</span><span class="s2">=</span><span class="s1">self</span><span class="s2">.</span><span class="s1">SMALL_TEXT</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_start_button</span><span class="s2">.</span><span class="s1">pack</span><span class="s2">(</span><span class="s1">side</span><span class="s2">=</span><span class="s4">&quot;top&quot;</span><span class="s2">, </span><span class="s1">pady</span><span class="s2">=</span><span class="s1">self</span><span class="s2">.</span><span class="s1">PADDING</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">destroy_start_menu</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method destroys the start menu's widgets. it is called at the 
+        beginning of the game&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_start_button</span><span class="s2">.</span><span class="s1">destroy</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_welcome</span><span class="s2">.</span><span class="s1">destroy</span><span class="s2">()</span>
+
+    <span class="s0">def </span><span class="s1">set_start_button_cmd</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">cmd</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method is responsible for giving the start button its command 
+        it is called when the game is run&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_start_button</span><span class="s2">.</span><span class="s1">configure</span><span class="s2">(</span><span class="s1">command</span><span class="s2">=</span><span class="s1">cmd</span><span class="s2">)</span>
+
+
+<span class="s0">class </span><span class="s1">EndMenu</span><span class="s2">:</span>
+    <span class="s3">&quot;&quot;&quot;this class is responsible for creating the end screen, when the game is over&quot;&quot;&quot;</span>
+
+    <span class="s1">DEFAULT_TEXT </span><span class="s2">= (</span><span class="s4">&quot;Courier&quot;</span><span class="s2">, </span><span class="s5">30</span><span class="s2">)</span>
+    <span class="s1">END_GAME_MESSAGE </span><span class="s2">= </span><span class="s4">&quot;You finished the game!&quot; </span><span class="s2">+ </span><span class="s4">&quot;</span><span class="s0">\n</span><span class="s4">&quot; </span><span class="s2">+ </span><span class="s4">&quot;your score was: &quot;</span>
+    <span class="s1">PADDING </span><span class="s2">= </span><span class="s5">4</span>
+    <span class="s1">GREEN </span><span class="s2">= </span><span class="s4">&quot;green&quot;</span>
+
+    <span class="s0">def </span><span class="s1">__init__</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">root</span><span class="s2">):</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_main_window </span><span class="s2">= </span><span class="s1">root</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_score_display_end </span><span class="s2">= </span><span class="s1">tk</span><span class="s2">.</span><span class="s1">Label</span><span class="s2">(</span><span class="s1">root</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_high_score_display </span><span class="s2">= </span><span class="s1">tk</span><span class="s2">.</span><span class="s1">Label</span><span class="s2">(</span><span class="s1">root</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_play_again </span><span class="s2">= </span><span class="s1">tk</span><span class="s2">.</span><span class="s1">Button</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_main_window</span><span class="s2">, </span><span class="s1">text</span><span class="s2">=</span><span class="s4">&quot;play again&quot;</span><span class="s2">, </span><span class="s1">font</span><span class="s2">=</span><span class="s1">self</span><span class="s2">.</span><span class="s1">DEFAULT_TEXT</span><span class="s2">, </span><span class="s1">bg</span><span class="s2">=</span><span class="s1">self</span><span class="s2">.</span><span class="s1">GREEN</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">forget_frame</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method makes all the widgets and frame be forgotten. it is used when 
+        the user chooses to play again&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_score_display_end</span><span class="s2">.</span><span class="s1">forget</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_high_score_display</span><span class="s2">.</span><span class="s1">forget</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_play_again</span><span class="s2">.</span><span class="s1">forget</span><span class="s2">()</span>
+
+    <span class="s0">def </span><span class="s1">set_play_button_cmd</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">cmd</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method is responsible for giving the play again button 
+        its command. it is called when the current game is over, and 
+        allows for the user to play again&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_play_again</span><span class="s2">.</span><span class="s1">configure</span><span class="s2">(</span><span class="s1">command</span><span class="s2">=</span><span class="s1">cmd</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">create_final_score_widget</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">score</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method creates the widget that shows the user his final score&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_score_display_end </span><span class="s2">= </span><span class="s1">tk</span><span class="s2">.</span><span class="s1">Label</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_main_window</span><span class="s2">, </span><span class="s1">text</span><span class="s2">=(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">END_GAME_MESSAGE </span><span class="s2">+ </span><span class="s1">score</span><span class="s2">),</span>
+                                           <span class="s1">font</span><span class="s2">=</span><span class="s1">self</span><span class="s2">.</span><span class="s1">DEFAULT_TEXT</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">create_high_score_widget</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">high_score</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method creates the widget that shows the user his overall high score&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_high_score_display </span><span class="s2">= </span><span class="s1">tk</span><span class="s2">.</span><span class="s1">Label</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_main_window</span><span class="s2">, </span><span class="s1">text</span><span class="s2">=</span><span class="s4">&quot;High score: &quot;</span><span class="s2">+</span><span class="s1">high_score</span><span class="s2">, </span><span class="s1">font</span><span class="s2">=</span><span class="s1">self</span><span class="s2">.</span><span class="s1">DEFAULT_TEXT</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">present_widgets</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method packs all the created widgets &quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_play_again</span><span class="s2">.</span><span class="s1">pack</span><span class="s2">(</span><span class="s1">side</span><span class="s2">=</span><span class="s4">&quot;top&quot;</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_score_display_end</span><span class="s2">.</span><span class="s1">pack</span><span class="s2">(</span><span class="s1">side</span><span class="s2">=</span><span class="s4">&quot;top&quot;</span><span class="s2">, </span><span class="s1">pady</span><span class="s2">=</span><span class="s1">self</span><span class="s2">.</span><span class="s1">PADDING</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_high_score_display</span><span class="s2">.</span><span class="s1">pack</span><span class="s2">(</span><span class="s1">side</span><span class="s2">=</span><span class="s4">&quot;top&quot;</span><span class="s2">, </span><span class="s1">pady</span><span class="s2">=</span><span class="s1">self</span><span class="s2">.</span><span class="s1">PADDING</span><span class="s2">)</span>
+</pre>
+</body>
+</html>

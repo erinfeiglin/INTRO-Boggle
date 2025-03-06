@@ -1,0 +1,148 @@
+<html>
+<head>
+<title>boggle.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #5f826b; font-style: italic;}
+.s4 { color: #6aab73;}
+.s5 { color: #2aacb8;}
+.s6 { color: #7a7e85;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+boggle.py</font>
+</center></td></tr></table>
+<pre><span class="s0">from </span><span class="s1">foundwordsframe </span><span class="s0">import </span><span class="s2">*</span>
+<span class="s0">from </span><span class="s1">inputlineframe </span><span class="s0">import </span><span class="s2">*</span>
+<span class="s0">from </span><span class="s1">lettersframe </span><span class="s0">import </span><span class="s2">*</span>
+<span class="s0">from </span><span class="s1">startframe </span><span class="s0">import </span><span class="s2">*</span>
+<span class="s0">from </span><span class="s1">upperframe </span><span class="s0">import </span><span class="s2">*</span>
+
+
+<span class="s0">class </span><span class="s1">BoggleGame</span><span class="s2">:</span>
+    <span class="s3">&quot;&quot;&quot;the main class that packs everything together. An instance of this class 
+    will start and run the game&quot;&quot;&quot;</span>
+
+    <span class="s1">DISABLED_BUTTON_COLOR </span><span class="s2">= </span><span class="s4">&quot;red&quot;</span>
+    <span class="s1">TIME_OUT </span><span class="s2">= </span><span class="s4">&quot;02:40&quot;</span>
+    <span class="s1">GAME_NAME </span><span class="s2">= </span><span class="s4">&quot;Boggle&quot;</span>
+    <span class="s1">ROOT_SIZE </span><span class="s2">= </span><span class="s4">&quot;550x600&quot;</span>
+    <span class="s1">EMPTY_PREFIX </span><span class="s2">= </span><span class="s4">&quot;&quot;</span>
+
+    <span class="s0">def </span><span class="s1">__init__</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s1">root </span><span class="s2">= </span><span class="s1">tk</span><span class="s2">.</span><span class="s1">Tk</span><span class="s2">()</span>
+        <span class="s1">root</span><span class="s2">.</span><span class="s1">title</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">GAME_NAME</span><span class="s2">)</span>
+        <span class="s1">root</span><span class="s2">.</span><span class="s1">geometry</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">ROOT_SIZE</span><span class="s2">)</span>
+        <span class="s1">root</span><span class="s2">.</span><span class="s1">resizable</span><span class="s2">(</span><span class="s0">False</span><span class="s2">, </span><span class="s0">False</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_main_window </span><span class="s2">= </span><span class="s1">root</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_upper_frame </span><span class="s2">= </span><span class="s1">UpperFrame</span><span class="s2">(</span><span class="s1">root</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame </span><span class="s2">= </span><span class="s1">LettersFrame</span><span class="s2">(</span><span class="s1">root</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_user_input_frame </span><span class="s2">= </span><span class="s1">InputFrame</span><span class="s2">(</span><span class="s1">root</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_found_words_frame </span><span class="s2">= </span><span class="s1">FoundWordsFrame</span><span class="s2">(</span><span class="s1">root</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_start_menu </span><span class="s2">= </span><span class="s1">StartMenu</span><span class="s2">(</span><span class="s1">root</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_play_again_menu </span><span class="s2">= </span><span class="s1">EndMenu</span><span class="s2">(</span><span class="s1">root</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_list_of_scores </span><span class="s2">= </span><span class="s1">list</span><span class="s2">()</span>
+
+    <span class="s0">def </span><span class="s1">_start_game</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method is responsible for beginning the game 
+        it is the cmd given to the start button on the starting screen 
+        It creates all the needed frames, forgets/destroys the unnecessary frames/widgets 
+        and sets the buttons to have their commands&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_create_frames</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_play_again_menu</span><span class="s2">.</span><span class="s1">forget_frame</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_start_menu</span><span class="s2">.</span><span class="s1">destroy_start_menu</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_check_time</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame</span><span class="s2">.</span><span class="s1">set_buttons_cmd</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_push_letter</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_user_input_frame</span><span class="s2">.</span><span class="s1">set_backspace_cmd</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_push_backspace</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_user_input_frame</span><span class="s2">.</span><span class="s1">set_check_cmd</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_press_check_button</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">_create_frames</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;creates the needed frames (from the other classes)&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_upper_frame</span><span class="s2">.</span><span class="s1">start_frame</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame</span><span class="s2">.</span><span class="s1">start_frame</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_user_input_frame</span><span class="s2">.</span><span class="s1">start_frame</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_found_words_frame</span><span class="s2">.</span><span class="s1">start_frame</span><span class="s2">()</span>
+
+    <span class="s0">def </span><span class="s1">_press_check_button</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method is carried out when the &quot;check&quot; button is pressed 
+        it checks if the current string of letters creates a valid word 
+        If it is, the word is added to the found_words widget, the word's score is added 
+        to scoreboard, and the current word window is reset&quot;&quot;&quot;</span>
+        <span class="s1">is_word </span><span class="s2">= </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_user_input_frame</span><span class="s2">.</span><span class="s1">get_curr_word</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_user_input_frame</span><span class="s2">.</span><span class="s1">set_curr_word</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">EMPTY_PREFIX</span><span class="s2">)</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">is_word </span><span class="s0">in </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_user_input_frame</span><span class="s2">.</span><span class="s1">get_dictionary</span><span class="s2">() </span><span class="s0">and </span><span class="s1">is_word </span><span class="s0">not in</span>
+                <span class="s1">self</span><span class="s2">.</span><span class="s1">_found_words_frame</span><span class="s2">.</span><span class="s1">get_found_words</span><span class="s2">()):</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">_found_words_frame</span><span class="s2">.</span><span class="s1">add_to_found_words</span><span class="s2">(</span><span class="s1">is_word</span><span class="s2">)</span>
+            <span class="s1">curr_score </span><span class="s2">= (</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame</span><span class="s2">.</span><span class="s1">get_board</span><span class="s2">().</span><span class="s1">get_path</span><span class="s2">().</span><span class="s1">get_length</span><span class="s2">())**</span><span class="s5">2</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">_upper_frame</span><span class="s2">.</span><span class="s1">add_to_score</span><span class="s2">(</span><span class="s1">curr_score</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame</span><span class="s2">.</span><span class="s1">get_board</span><span class="s2">().</span><span class="s1">initialize_path</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame</span><span class="s2">.</span><span class="s1">enable_all</span><span class="s2">()</span>
+
+    <span class="s0">def </span><span class="s1">_push_letter</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">row</span><span class="s2">, </span><span class="s1">col</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method is carried out when a letter button is pressed 
+        The button's value is added to the current word, and only the valid cells surrounding 
+        the chosen one are allowed to be clicked in the following turn &quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame</span><span class="s2">.</span><span class="s1">get_board</span><span class="s2">().</span><span class="s1">extend_path</span><span class="s2">((</span><span class="s1">row</span><span class="s2">, </span><span class="s1">col</span><span class="s2">))</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_user_input_frame</span><span class="s2">.</span><span class="s1">set_curr_word</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_user_input_frame</span><span class="s2">.</span><span class="s1">get_curr_word</span><span class="s2">()+</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame</span><span class="s2">.</span><span class="s1">get_buttons</span><span class="s2">()[</span><span class="s1">row</span><span class="s2">][</span><span class="s1">col</span><span class="s2">][</span><span class="s4">&quot;text&quot;</span><span class="s2">])</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame</span><span class="s2">.</span><span class="s1">disable_surrounding</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame</span><span class="s2">.</span><span class="s1">get_buttons</span><span class="s2">()[</span><span class="s1">row</span><span class="s2">][</span><span class="s1">col</span><span class="s2">].</span><span class="s1">configure</span><span class="s2">(</span><span class="s1">state</span><span class="s2">=</span><span class="s4">&quot;disabled&quot;</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame</span><span class="s2">.</span><span class="s1">get_buttons</span><span class="s2">()[</span><span class="s1">row</span><span class="s2">][</span><span class="s1">col</span><span class="s2">][</span><span class="s4">&quot;bg&quot;</span><span class="s2">] = </span><span class="s1">self</span><span class="s2">.</span><span class="s1">DISABLED_BUTTON_COLOR</span>
+
+    <span class="s0">def </span><span class="s1">_push_backspace</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method is carried out when the backspace is pressed 
+        the previously added value is removed from the current word and the pressed button is unpressed&quot;&quot;&quot;</span>
+        <span class="s0">if </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_user_input_frame</span><span class="s2">.</span><span class="s1">get_curr_word</span><span class="s2">() != </span><span class="s1">self</span><span class="s2">.</span><span class="s1">EMPTY_PREFIX</span><span class="s2">:</span>
+            <span class="s1">row_removed</span><span class="s2">, </span><span class="s1">col_removed </span><span class="s2">= </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame</span><span class="s2">.</span><span class="s1">get_board</span><span class="s2">().</span><span class="s1">shorten_path</span><span class="s2">()</span>
+            <span class="s0">if </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_user_input_frame</span><span class="s2">.</span><span class="s1">get_curr_word</span><span class="s2">():</span>
+                <span class="s1">length_last </span><span class="s2">= </span><span class="s1">len</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame</span><span class="s2">.</span><span class="s1">get_buttons</span><span class="s2">()[</span><span class="s1">row_removed</span><span class="s2">][</span><span class="s1">col_removed</span><span class="s2">][</span><span class="s4">&quot;text&quot;</span><span class="s2">])</span>
+                <span class="s1">self</span><span class="s2">.</span><span class="s1">_user_input_frame</span><span class="s2">.</span><span class="s1">set_curr_word</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_user_input_frame</span><span class="s2">.</span><span class="s1">get_curr_word</span><span class="s2">()[:-</span><span class="s1">length_last</span><span class="s2">])</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame</span><span class="s2">.</span><span class="s1">enable_all</span><span class="s2">()</span>
+            <span class="s0">if </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_user_input_frame</span><span class="s2">.</span><span class="s1">get_curr_word</span><span class="s2">():</span>
+                <span class="s6"># disable the buttons from last turn</span>
+                <span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame</span><span class="s2">.</span><span class="s1">disable_surrounding</span><span class="s2">()</span>
+            <span class="s0">for </span><span class="s1">row_i</span><span class="s2">, </span><span class="s1">col_i </span><span class="s0">in </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame</span><span class="s2">.</span><span class="s1">get_board</span><span class="s2">().</span><span class="s1">get_path</span><span class="s2">().</span><span class="s1">get_cords</span><span class="s2">():</span>
+                <span class="s6"># disable the buttons that make up the current path</span>
+                <span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame</span><span class="s2">.</span><span class="s1">get_buttons</span><span class="s2">()[</span><span class="s1">row_i</span><span class="s2">][</span><span class="s1">col_i</span><span class="s2">].</span><span class="s1">configure</span><span class="s2">(</span><span class="s1">state</span><span class="s2">=</span><span class="s4">&quot;disabled&quot;</span><span class="s2">)</span>
+                <span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame</span><span class="s2">.</span><span class="s1">get_buttons</span><span class="s2">()[</span><span class="s1">row_i</span><span class="s2">][</span><span class="s1">col_i</span><span class="s2">][</span><span class="s4">&quot;bg&quot;</span><span class="s2">] = </span><span class="s1">self</span><span class="s2">.</span><span class="s1">DISABLED_BUTTON_COLOR</span>
+
+    <span class="s0">def </span><span class="s1">_forget_widgets</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method makes all the widgets and frame be forgotten. it is used when 
+        the current game is over, as a means to reset the game 
+        it also creates a widget containing the final score and presents the user 
+        with the play again menu&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_play_again_menu</span><span class="s2">.</span><span class="s1">create_final_score_widget</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_upper_frame</span><span class="s2">.</span><span class="s1">get_score</span><span class="s2">())</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_list_of_scores</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span><span class="s1">int</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_upper_frame</span><span class="s2">.</span><span class="s1">get_score</span><span class="s2">()))</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_play_again_menu</span><span class="s2">.</span><span class="s1">create_high_score_widget</span><span class="s2">(</span><span class="s1">str</span><span class="s2">(</span><span class="s1">max</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_list_of_scores</span><span class="s2">)))</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_upper_frame</span><span class="s2">.</span><span class="s1">forget_widgets</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_grid_frame</span><span class="s2">.</span><span class="s1">forget_frame</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_user_input_frame</span><span class="s2">.</span><span class="s1">forget_widgets</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_found_words_frame</span><span class="s2">.</span><span class="s1">forget_widgets</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_play_again_menu</span><span class="s2">.</span><span class="s1">set_play_button_cmd</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_start_game</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_play_again_menu</span><span class="s2">.</span><span class="s1">present_widgets</span><span class="s2">()</span>
+
+    <span class="s0">def </span><span class="s1">_check_time</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;checks the current time on the timer 
+        if it has reached 0:00, the game is over, and the method 
+        forget_widgets is called&quot;&quot;&quot;</span>
+        <span class="s0">if </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_upper_frame</span><span class="s2">.</span><span class="s1">get_time</span><span class="s2">() == </span><span class="s1">self</span><span class="s2">.</span><span class="s1">TIME_OUT</span><span class="s2">:</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">_forget_widgets</span><span class="s2">()</span>
+        <span class="s0">else</span><span class="s2">:</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">_main_window</span><span class="s2">.</span><span class="s1">after</span><span class="s2">(</span><span class="s5">1000</span><span class="s2">, </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_check_time</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">run</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;the method used to run the game&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_start_menu</span><span class="s2">.</span><span class="s1">set_start_button_cmd</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_start_game</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_main_window</span><span class="s2">.</span><span class="s1">mainloop</span><span class="s2">()</span>
+
+
+<span class="s1">a </span><span class="s2">= </span><span class="s1">BoggleGame</span><span class="s2">()</span>
+<span class="s1">a</span><span class="s2">.</span><span class="s1">run</span><span class="s2">()</span>
+</pre>
+</body>
+</html>

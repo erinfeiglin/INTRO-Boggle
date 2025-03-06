@@ -1,0 +1,122 @@
+<html>
+<head>
+<title>ex11_utils.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #5f826b; font-style: italic;}
+.s4 { color: #7a7e85;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+ex11_utils.py</font>
+</center></td></tr></table>
+<pre><span class="s0">from </span><span class="s1">typing </span><span class="s0">import </span><span class="s2">*</span>
+<span class="s0">from </span><span class="s1">path </span><span class="s0">import </span><span class="s2">*</span>
+<span class="s0">import </span><span class="s1">board2</span>
+
+
+
+<span class="s1">Board </span><span class="s2">= </span><span class="s1">List</span><span class="s2">[</span><span class="s1">List</span><span class="s2">[</span><span class="s1">str</span><span class="s2">]]</span>
+<span class="s1">Path </span><span class="s2">= </span><span class="s1">List</span><span class="s2">[</span><span class="s1">Tuple</span><span class="s2">[</span><span class="s1">int</span><span class="s2">, </span><span class="s1">int</span><span class="s2">]]</span>
+
+
+<span class="s0">def </span><span class="s1">is_valid_path</span><span class="s2">(</span><span class="s1">board</span><span class="s2">: </span><span class="s1">Board</span><span class="s2">, </span><span class="s1">path</span><span class="s2">: </span><span class="s1">Path</span><span class="s2">, </span><span class="s1">words</span><span class="s2">: </span><span class="s1">Iterable</span><span class="s2">[</span><span class="s1">str</span><span class="s2">]) </span><span class="s1">-&gt; Optional</span><span class="s2">[</span><span class="s1">str</span><span class="s2">]:</span>
+    <span class="s3">&quot;&quot;&quot; 
+    a function that checks if a given path is possible and creates a word on the board, 
+    the function will return the word creates if path is valid and None if not. 
+    &quot;&quot;&quot;</span>
+    <span class="s1">board_object </span><span class="s2">= </span><span class="s1">board2</span><span class="s2">.</span><span class="s1">Board</span><span class="s2">(</span><span class="s1">board</span><span class="s2">)</span>
+    <span class="s4"># create a board object from given board of letters</span>
+    <span class="s0">for </span><span class="s1">coordinate </span><span class="s0">in </span><span class="s1">path</span><span class="s2">:</span>
+        <span class="s4"># for each coordinate of given path, if it is possible to extend it in</span>
+        <span class="s4"># the current board, extend it, if not, return None</span>
+        <span class="s0">if not </span><span class="s1">board_object</span><span class="s2">.</span><span class="s1">extend_path</span><span class="s2">(</span><span class="s1">coordinate</span><span class="s2">):</span>
+            <span class="s0">return</span>
+    <span class="s0">if </span><span class="s1">board_object</span><span class="s2">.</span><span class="s1">get_word</span><span class="s2">() </span><span class="s0">in </span><span class="s1">words</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s1">board_object</span><span class="s2">.</span><span class="s1">get_word</span><span class="s2">()</span>
+        <span class="s4"># if the path was created successfully; if it creates a word in the dictionary</span>
+        <span class="s4"># return it, otherwise, return None</span>
+    <span class="s0">else</span><span class="s2">:</span>
+        <span class="s0">return</span>
+
+
+<span class="s0">def </span><span class="s1">find_length_n_paths</span><span class="s2">(</span><span class="s1">n</span><span class="s2">: </span><span class="s1">int</span><span class="s2">, </span><span class="s1">board</span><span class="s2">: </span><span class="s1">Board</span><span class="s2">, </span><span class="s1">words</span><span class="s2">: </span><span class="s1">Iterable</span><span class="s2">[</span><span class="s1">str</span><span class="s2">]) </span><span class="s1">-&gt; List</span><span class="s2">[</span><span class="s1">Path</span><span class="s2">]:</span>
+    <span class="s3">&quot;&quot;&quot; 
+    function returns a list of all paths in board that create legal words and are in the length of n 
+    :param n: represents length of the paths 
+    :param board: a two-dimensional list filled with letters or sequences of letters representing a boggle board 
+    :param words: a dictionary of words 
+    :return: list of paths (not objects but lists of coordinates) in the length of n 
+    &quot;&quot;&quot;</span>
+    <span class="s0">if </span><span class="s1">n </span><span class="s2">== </span><span class="s5">0</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s1">list</span><span class="s2">()</span>
+    <span class="s0">elif </span><span class="s1">n </span><span class="s2">== </span><span class="s5">1</span><span class="s2">:</span>
+        <span class="s1">lst_paths </span><span class="s2">= </span><span class="s1">list</span><span class="s2">()</span>
+        <span class="s1">board_object </span><span class="s2">= </span><span class="s1">board2</span><span class="s2">.</span><span class="s1">Board</span><span class="s2">(</span><span class="s1">board</span><span class="s2">)</span>
+        <span class="s0">for </span><span class="s1">row</span><span class="s2">, </span><span class="s1">col </span><span class="s0">in </span><span class="s1">board_object</span><span class="s2">.</span><span class="s1">cell_list_empty</span><span class="s2">():</span>
+            <span class="s0">if </span><span class="s1">board</span><span class="s2">[</span><span class="s1">row</span><span class="s2">][</span><span class="s1">col</span><span class="s2">] </span><span class="s0">in </span><span class="s1">words</span><span class="s2">:</span>
+                <span class="s1">lst_paths</span><span class="s2">.</span><span class="s1">append</span><span class="s2">([(</span><span class="s1">row</span><span class="s2">, </span><span class="s1">col</span><span class="s2">)])</span>
+        <span class="s0">return </span><span class="s1">lst_paths</span>
+    <span class="s0">else</span><span class="s2">:</span>
+        <span class="s1">board_object </span><span class="s2">= </span><span class="s1">board2</span><span class="s2">.</span><span class="s1">Board</span><span class="s2">(</span><span class="s1">board</span><span class="s2">)</span>
+        <span class="s4"># create a board object from given board of letters</span>
+        <span class="s0">for </span><span class="s1">word </span><span class="s0">in </span><span class="s1">words</span><span class="s2">:</span>
+            <span class="s0">if </span><span class="s1">len</span><span class="s2">(</span><span class="s1">word</span><span class="s2">) &gt;= </span><span class="s1">n</span><span class="s2">:</span>
+                <span class="s1">board_object</span><span class="s2">.</span><span class="s1">find_word_on_board</span><span class="s2">(</span><span class="s1">word</span><span class="s2">)</span>
+            <span class="s1">board_object</span><span class="s2">.</span><span class="s1">initialize_path</span><span class="s2">()</span>
+        <span class="s4"># try to find each word longer than n, creating a path for each successfully found</span>
+        <span class="s4"># word. when done, return only the paths of length n</span>
+        <span class="s0">return </span><span class="s1">board_object</span><span class="s2">.</span><span class="s1">get_paths_length_n</span><span class="s2">(</span><span class="s1">n</span><span class="s2">)</span>
+
+
+<span class="s0">def </span><span class="s1">find_length_n_words</span><span class="s2">(</span><span class="s1">n</span><span class="s2">: </span><span class="s1">int</span><span class="s2">, </span><span class="s1">board</span><span class="s2">: </span><span class="s1">Board</span><span class="s2">, </span><span class="s1">words</span><span class="s2">: </span><span class="s1">Iterable</span><span class="s2">[</span><span class="s1">str</span><span class="s2">]) </span><span class="s1">-&gt; List</span><span class="s2">[</span><span class="s1">Path</span><span class="s2">]:</span>
+    <span class="s3">&quot;&quot;&quot; 
+    function returns a list of all paths in board that create legal words in the length of n 
+    :param n: represents length of the words 
+    :param board: a two-dimensional list filled with letters or sequences of letters representing a boggle board 
+    :param words: a dictionary of words 
+    :return: list of paths (not objects but lists of coordinates) that create words in the length of n 
+    &quot;&quot;&quot;</span>
+    <span class="s1">board_object </span><span class="s2">= </span><span class="s1">board2</span><span class="s2">.</span><span class="s1">Board</span><span class="s2">(</span><span class="s1">board</span><span class="s2">)</span>
+    <span class="s4"># create a board object from given board of letters</span>
+    <span class="s0">for </span><span class="s1">word </span><span class="s0">in </span><span class="s1">words</span><span class="s2">:</span>
+        <span class="s0">if </span><span class="s1">len</span><span class="s2">(</span><span class="s1">word</span><span class="s2">) == </span><span class="s1">n</span><span class="s2">:</span>
+            <span class="s1">board_object</span><span class="s2">.</span><span class="s1">find_word_on_board</span><span class="s2">(</span><span class="s1">word</span><span class="s2">)</span>
+        <span class="s1">board_object</span><span class="s2">.</span><span class="s1">initialize_path</span><span class="s2">()</span>
+    <span class="s4"># try to find each word of length n, creating a path for each successfully found</span>
+    <span class="s4"># word. when done, return the found paths</span>
+    <span class="s0">return </span><span class="s1">board_object</span><span class="s2">.</span><span class="s1">get_words_length_n</span><span class="s2">(</span><span class="s1">n</span><span class="s2">)</span>
+
+
+<span class="s0">def </span><span class="s1">max_score_paths</span><span class="s2">(</span><span class="s1">board</span><span class="s2">: </span><span class="s1">Board</span><span class="s2">, </span><span class="s1">words</span><span class="s2">: </span><span class="s1">Iterable</span><span class="s2">[</span><span class="s1">str</span><span class="s2">]) </span><span class="s1">-&gt; List</span><span class="s2">[</span><span class="s1">Path</span><span class="s2">]:</span>
+    <span class="s3">&quot;&quot;&quot; 
+    a function that returns all paths to receive max score in the given boggle board for given dictionary of words 
+    :param board: a two-dimensional list filled with letters or sequences of letters representing a boggle board 
+    :param words: a dictionary of words 
+    :return: a list of the maximal path found for each word that can be created on board 
+    &quot;&quot;&quot;</span>
+    <span class="s1">board_object </span><span class="s2">= </span><span class="s1">board2</span><span class="s2">.</span><span class="s1">Board</span><span class="s2">(</span><span class="s1">board</span><span class="s2">)</span>
+    <span class="s4"># create a board object from given board of letters</span>
+    <span class="s0">for </span><span class="s1">word </span><span class="s0">in </span><span class="s1">words</span><span class="s2">:</span>
+        <span class="s1">board_object</span><span class="s2">.</span><span class="s1">find_word_on_board</span><span class="s2">(</span><span class="s1">word</span><span class="s2">)</span>
+        <span class="s1">board_object</span><span class="s2">.</span><span class="s1">initialize_path</span><span class="s2">()</span>
+    <span class="s4"># find all the possible words on the board, then return the longest path</span>
+    <span class="s4"># of each word, using the board object's method, get_high_score</span>
+    <span class="s0">return </span><span class="s1">board_object</span><span class="s2">.</span><span class="s1">get_high_score</span><span class="s2">()</span>
+
+
+
+
+
+
+
+</pre>
+</body>
+</html>

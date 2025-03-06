@@ -1,0 +1,97 @@
+<html>
+<head>
+<title>path.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #5f826b; font-style: italic;}
+.s4 { color: #2aacb8;}
+.s5 { color: #7a7e85;}
+.s6 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+path.py</font>
+</center></td></tr></table>
+<pre><span class="s0">from </span><span class="s1">typing </span><span class="s0">import </span><span class="s2">*</span>
+
+
+<span class="s0">class </span><span class="s1">Path</span><span class="s2">:</span>
+    <span class="s3">&quot;&quot;&quot; 
+        A class representing a path made up of a list of coordinates. 
+        Attributes: 
+        list_of_cords (List[Tuple[int, int]]) : list of coordinates that 
+        represent a certain path (in a currently &quot;infinite&quot; board) 
+        length (int) : the length of the path 
+    &quot;&quot;&quot;</span>
+    <span class="s0">def </span><span class="s1">__init__</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot; 
+        constructor for path object - creates an empty list of coordinates, and an initialized length (0) 
+        &quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">__length</span><span class="s2">: </span><span class="s1">int </span><span class="s2">= </span><span class="s4">0</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">__list_of_cords</span><span class="s2">: </span><span class="s1">List </span><span class="s2">= </span><span class="s1">list</span><span class="s2">()</span>
+
+    <span class="s0">def </span><span class="s1">get_cords</span><span class="s2">(</span><span class="s1">self</span><span class="s2">) </span><span class="s1">-&gt; List</span><span class="s2">[</span><span class="s1">Tuple</span><span class="s2">[</span><span class="s1">int</span><span class="s2">, </span><span class="s1">int</span><span class="s2">]]:</span>
+        <span class="s3">&quot;&quot;&quot; 
+        :return : the path itself, a list of coordinates 
+        &quot;&quot;&quot;</span>
+        <span class="s0">return </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__list_of_cords</span>
+
+    <span class="s0">def </span><span class="s1">get_length</span><span class="s2">(</span><span class="s1">self</span><span class="s2">) </span><span class="s1">-&gt; int</span><span class="s2">:</span>
+        <span class="s3">&quot;&quot;&quot; 
+        :return : the length of the path 
+        &quot;&quot;&quot;</span>
+        <span class="s0">return </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__length</span>
+
+    <span class="s0">def </span><span class="s1">possible_moves</span><span class="s2">(</span><span class="s1">self</span><span class="s2">) </span><span class="s1">-&gt; str </span><span class="s0">or </span><span class="s1">List</span><span class="s2">[</span><span class="s1">Tuple</span><span class="s2">[</span><span class="s1">int</span><span class="s2">, </span><span class="s1">int</span><span class="s2">]]:</span>
+        <span class="s3">&quot;&quot;&quot; 
+        checks what coordinates around the previous coordinate can lengthen the path (aren't already in it) 
+        :return: list of coordinates around previous coordinate of path that are still unused in current path 
+        &quot;&quot;&quot;</span>
+        <span class="s0">if not </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__list_of_cords</span><span class="s2">:</span>
+            <span class="s5"># if the path is empty, every coordinate is possible, return &quot;All&quot; as flag</span>
+            <span class="s0">return </span><span class="s6">&quot;All&quot;</span>
+        <span class="s1">current_row</span><span class="s2">, </span><span class="s1">current_col </span><span class="s2">= </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__list_of_cords</span><span class="s2">[-</span><span class="s4">1</span><span class="s2">]</span>
+        <span class="s1">valid_moves </span><span class="s2">= []</span>
+        <span class="s1">possible_moves </span><span class="s2">= [(</span><span class="s1">current_row</span><span class="s2">+</span><span class="s4">1</span><span class="s2">, </span><span class="s1">current_col</span><span class="s2">), (</span><span class="s1">current_row</span><span class="s2">-</span><span class="s4">1</span><span class="s2">, </span><span class="s1">current_col</span><span class="s2">),</span>
+                          <span class="s2">(</span><span class="s1">current_row</span><span class="s2">, </span><span class="s1">current_col</span><span class="s2">+</span><span class="s4">1</span><span class="s2">), (</span><span class="s1">current_row</span><span class="s2">, </span><span class="s1">current_col</span><span class="s2">-</span><span class="s4">1</span><span class="s2">),</span>
+                          <span class="s2">(</span><span class="s1">current_row</span><span class="s2">+</span><span class="s4">1</span><span class="s2">, </span><span class="s1">current_col</span><span class="s2">-</span><span class="s4">1</span><span class="s2">), (</span><span class="s1">current_row</span><span class="s2">+</span><span class="s4">1</span><span class="s2">, </span><span class="s1">current_col</span><span class="s2">+</span><span class="s4">1</span><span class="s2">),</span>
+                          <span class="s2">(</span><span class="s1">current_row</span><span class="s2">-</span><span class="s4">1</span><span class="s2">, </span><span class="s1">current_col</span><span class="s2">-</span><span class="s4">1</span><span class="s2">), (</span><span class="s1">current_row</span><span class="s2">-</span><span class="s4">1</span><span class="s2">, </span><span class="s1">current_col</span><span class="s2">+</span><span class="s4">1</span><span class="s2">)]</span>
+        <span class="s5"># make sure the coordinate has not yet been used in path and that it is not a negative value:</span>
+        <span class="s0">for </span><span class="s1">move </span><span class="s0">in </span><span class="s1">possible_moves</span><span class="s2">:</span>
+            <span class="s0">if </span><span class="s1">move </span><span class="s0">not in </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__list_of_cords</span><span class="s2">:</span>
+                <span class="s0">if </span><span class="s1">move</span><span class="s2">[</span><span class="s4">0</span><span class="s2">] &gt;= </span><span class="s4">0 </span><span class="s0">and </span><span class="s1">move</span><span class="s2">[</span><span class="s4">1</span><span class="s2">] &gt;= </span><span class="s4">0</span><span class="s2">:</span>
+                    <span class="s1">valid_moves</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span><span class="s1">move</span><span class="s2">)</span>
+        <span class="s0">return </span><span class="s1">valid_moves</span>
+
+    <span class="s0">def </span><span class="s1">add_cord</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">coordinate</span><span class="s2">: </span><span class="s1">Tuple</span><span class="s2">[</span><span class="s1">int</span><span class="s2">, </span><span class="s1">int</span><span class="s2">]) </span><span class="s1">-&gt; bool</span><span class="s2">:</span>
+        <span class="s3">&quot;&quot;&quot; 
+        adds a coordinate to the path if possible 
+        :param coordinate: a coordinate to be added to path 
+        :return: whether the coordinate was added or not - boolean value 
+        &quot;&quot;&quot;</span>
+        <span class="s0">if </span><span class="s1">self</span><span class="s2">.</span><span class="s1">possible_moves</span><span class="s2">() == </span><span class="s6">&quot;All&quot; </span><span class="s0">or </span><span class="s1">coordinate </span><span class="s0">in </span><span class="s1">self</span><span class="s2">.</span><span class="s1">possible_moves</span><span class="s2">():</span>
+            <span class="s5"># if the addition of the coordinate is possible than add it to path, update the length, and return True</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">__length </span><span class="s2">+= </span><span class="s4">1</span>
+            <span class="s1">self</span><span class="s2">.</span><span class="s1">__list_of_cords</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span><span class="s1">coordinate</span><span class="s2">)</span>
+            <span class="s0">return True</span>
+        <span class="s0">return False</span>
+
+    <span class="s0">def </span><span class="s1">remove_last</span><span class="s2">(</span><span class="s1">self</span><span class="s2">) </span><span class="s1">-&gt; Optional</span><span class="s2">[</span><span class="s1">Tuple</span><span class="s2">[</span><span class="s1">int</span><span class="s2">, </span><span class="s1">int</span><span class="s2">]]:</span>
+        <span class="s3">&quot;&quot;&quot; 
+        removes last coordinate of the path 
+        :return: the coordinate removed (unless the path was empty) 
+        &quot;&quot;&quot;</span>
+        <span class="s0">if not </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__list_of_cords</span><span class="s2">:</span>
+            <span class="s0">return</span>
+        <span class="s5"># if the path is not empty, update the length, and remove and return the last coordinate of path</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">__length </span><span class="s2">-= </span><span class="s4">1</span>
+        <span class="s0">return </span><span class="s1">self</span><span class="s2">.</span><span class="s1">__list_of_cords</span><span class="s2">.</span><span class="s1">pop</span><span class="s2">()</span>
+</pre>
+</body>
+</html>

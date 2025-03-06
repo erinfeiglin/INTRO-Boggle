@@ -1,0 +1,75 @@
+<html>
+<head>
+<title>foundwordsframe.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #5f826b; font-style: italic;}
+.s4 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+foundwordsframe.py</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">tkinter </span><span class="s0">as </span><span class="s1">tk</span>
+
+
+<span class="s0">class </span><span class="s1">FoundWordsFrame</span><span class="s2">:</span>
+    <span class="s3">&quot;&quot;&quot;The class responsible for creating the frame that will contain the found words&quot;&quot;&quot;</span>
+
+    <span class="s0">def </span><span class="s1">__init__</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">root</span><span class="s2">):</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_main_window </span><span class="s2">= </span><span class="s1">root</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_found_words_frame </span><span class="s2">= </span><span class="s0">None</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_scrollbar </span><span class="s2">= </span><span class="s0">None</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_display_found_words </span><span class="s2">= </span><span class="s0">None</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_set_found_words </span><span class="s2">= </span><span class="s1">set</span><span class="s2">()</span>
+
+    <span class="s0">def </span><span class="s1">start_frame</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method creates the frame and widgets needed to store the found words&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_create_frame</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_create_widgets</span><span class="s2">()</span>
+
+    <span class="s0">def </span><span class="s1">_create_frame</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method creates the frame that will contain the widgets&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_found_words_frame </span><span class="s2">= </span><span class="s1">tk</span><span class="s2">.</span><span class="s1">Frame</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_main_window</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_found_words_frame</span><span class="s2">.</span><span class="s1">pack</span><span class="s2">(</span><span class="s1">fill</span><span class="s2">=</span><span class="s1">tk</span><span class="s2">.</span><span class="s1">BOTH</span><span class="s2">, </span><span class="s1">expand</span><span class="s2">=</span><span class="s0">True</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">_create_widgets</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method creates and packs the widgets into the created frame. 
+        it creates a text widget that will contain the found words and a scrollbar 
+        that will allow the user to see all his found words&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_scrollbar </span><span class="s2">= </span><span class="s1">tk</span><span class="s2">.</span><span class="s1">Scrollbar</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_found_words_frame</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_scrollbar</span><span class="s2">.</span><span class="s1">pack</span><span class="s2">(</span><span class="s1">side</span><span class="s2">=</span><span class="s4">&quot;right&quot;</span><span class="s2">, </span><span class="s1">fill</span><span class="s2">=</span><span class="s1">tk</span><span class="s2">.</span><span class="s1">Y</span><span class="s2">, </span><span class="s1">expand</span><span class="s2">=</span><span class="s0">True</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_display_found_words </span><span class="s2">= </span><span class="s1">tk</span><span class="s2">.</span><span class="s1">Text</span><span class="s2">(</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_found_words_frame</span><span class="s2">, </span><span class="s1">yscrollcommand</span><span class="s2">=</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_scrollbar</span><span class="s2">.</span><span class="s1">set</span><span class="s2">,</span>
+                                            <span class="s1">state</span><span class="s2">=</span><span class="s4">&quot;disabled&quot;</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_display_found_words</span><span class="s2">.</span><span class="s1">pack</span><span class="s2">(</span><span class="s1">fill</span><span class="s2">=</span><span class="s1">tk</span><span class="s2">.</span><span class="s1">BOTH</span><span class="s2">, </span><span class="s1">expand</span><span class="s2">=</span><span class="s0">True</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_scrollbar</span><span class="s2">.</span><span class="s1">config</span><span class="s2">(</span><span class="s1">command</span><span class="s2">=</span><span class="s1">self</span><span class="s2">.</span><span class="s1">_display_found_words</span><span class="s2">.</span><span class="s1">yview</span><span class="s2">)</span>
+
+    <span class="s0">def </span><span class="s1">forget_widgets</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method makes all the widgets and frame be forgotten. it is used when 
+        the current game is over, as a means to reset the game&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_found_words_frame</span><span class="s2">.</span><span class="s1">forget</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_scrollbar</span><span class="s2">.</span><span class="s1">forget</span><span class="s2">()</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_display_found_words</span><span class="s2">.</span><span class="s1">forget</span><span class="s2">()</span>
+
+    <span class="s0">def </span><span class="s1">add_to_found_words</span><span class="s2">(</span><span class="s1">self</span><span class="s2">, </span><span class="s1">word</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method takes a word as an argument. it adds said word into the set 
+        of found words, and inserts the word visually into the text widget, to be 
+        displayed on screen&quot;&quot;&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_set_found_words</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">word</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_display_found_words</span><span class="s2">[</span><span class="s4">&quot;state&quot;</span><span class="s2">] = </span><span class="s4">&quot;normal&quot;</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_display_found_words</span><span class="s2">.</span><span class="s1">insert</span><span class="s2">(</span><span class="s1">tk</span><span class="s2">.</span><span class="s1">END</span><span class="s2">, </span><span class="s1">word </span><span class="s2">+ </span><span class="s4">&quot;</span><span class="s0">\n</span><span class="s4">&quot;</span><span class="s2">)</span>
+        <span class="s1">self</span><span class="s2">.</span><span class="s1">_display_found_words</span><span class="s2">[</span><span class="s4">&quot;state&quot;</span><span class="s2">] = </span><span class="s4">&quot;disabled&quot;</span>
+
+    <span class="s0">def </span><span class="s1">get_found_words</span><span class="s2">(</span><span class="s1">self</span><span class="s2">):</span>
+        <span class="s3">&quot;&quot;&quot;this method returns the set containing all the found words&quot;&quot;&quot;</span>
+        <span class="s0">return </span><span class="s1">self</span><span class="s2">.</span><span class="s1">_set_found_words</span>
+
+</pre>
+</body>
+</html>
